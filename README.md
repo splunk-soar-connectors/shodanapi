@@ -27,13 +27,13 @@ The below configuration variables are required for this App to operate on **Shod
 [scan internet](#action-scan-internet) \- Crawl the Internet for a specific port and protocol using Shodan  
 [scan ip with services](#action-scan-ip-with-services) \- A pipe-separated list of IPs or netblocks (in CIDR notation) that should get crawled with services.  
 [scan ip only](#action-scan-ip-only) \- Request Shodan to crawl an IP/ netblock  
-[scan protocols](#) \- List all protocols that can be used when performing on-demand Internet scans via Shodan.  
-[scan ports](#) \- List all ports that Shodan is crawling on the Internet.  
-[search token](#) \- Break the search query into tokens  
-[search parameter](#) \- List all search facets, filters  
-[search shodan](#) \- Search Shodan using the same query syntax as the website and use facets to get summary information for different properties.  
-[host count](#) \- Search Shodan without Results  
-[search ip](#) \- Returns all services that have been found on the given host IP.  
+[scan protocols](#action-scan-protocols) \- List all protocols that can be used when performing on-demand Internet scans via Shodan.  
+[scan ports](#action-scan-ports) \- List all ports that Shodan is crawling on the Internet.  
+[search token](#action-search-token) \- Break the search query into tokens  
+[search parameter](#action-search-parameter) \- List all search facets, filters  
+[search shodan](#action-search-shodan) \- Search Shodan using the same query syntax as the website and use facets to get summary information for different properties.  
+[host count](#action-host-count) \- Search Shodan without Results  
+[search ip](#action-search-ip) \- Returns all services that have been found on the given host IP.  
 [test connectivity](#action-test-connectivity) \- Validate the asset configuration for connectivity using supplied configuration  
 
 action: 'shodan scan individual'
