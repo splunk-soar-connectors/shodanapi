@@ -22,7 +22,7 @@ The below configuration variables are required for this App to operate on **Shod
 
 ### Supported Actions
 
-[shodan scan individual](#) \- Get the status of a scan request  
+[shodan scan individual](#action-shodan-scan-individual) \- Get the status of a scan request  
 [scan status bulk](#) \- Get list of all the created scans  
 [scan internet](#) \- Crawl the Internet for a specific port and protocol using Shodan  
 [scan ip with services](#) \- A pipe-separated list of IPs or netblocks (in CIDR notation) that should get crawled with services.  
@@ -34,7 +34,7 @@ The below configuration variables are required for this App to operate on **Shod
 [search shodan](#) \- Search Shodan using the same query syntax as the website and use facets to get summary information for different properties.  
 [host count](#) \- Search Shodan without Results  
 [search ip](#) \- Returns all services that have been found on the given host IP.  
-[test connectivity](#) \- Validate the asset configuration for connectivity using supplied configuration  
+[test connectivity](#action-test-connectivity) \- Validate the asset configuration for connectivity using supplied configuration  
 
 action: 'shodan scan individual'
 --------------------------------
