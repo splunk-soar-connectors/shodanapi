@@ -10,8 +10,6 @@ Product Version Supported (regex): ".*"
 
 This app integrates with the Shodan Search engine. It supports search and on-demand scanning APIs.
 
-tr.plain th { text-align: center; }
-
 ### Configuration Variables
 
 The below configuration variables are required for this App to operate on **Shodan Search Engine**. These are specified when configuring an asset in Splunk SOAR.
