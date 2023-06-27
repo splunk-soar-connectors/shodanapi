@@ -19,7 +19,7 @@
     "app_wizard_version": "1.0.0",
     "configuration": {
         "API Key": {
-            "description": "Enter your shodan API Key",
+            "description": "Shodan API Key",
             "data_type": "string",
             "required": true,
             "value_list": [],
