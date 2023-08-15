@@ -1,1336 +1,1340 @@
 {
-    "appid": "a106f266-1a20-4389-aefb-a122254ba7ff",
-    "name": "Shodan",
-    "description": "This app integrates with the Shodan Search engine. It supports search and on-demand scanning APIs.",
-    "type": "network security",
-    "product_vendor": "Shodan",
-    "logo": "shodan.png",
-    "logo_dark": "shodan_dark.png",
-    "product_name": "Shodan Search Engine",
-    "python_version": "3",
-    "product_version_regex": ".*",
-    "publisher": "Splunk",
-    "license": "Copyright (c) Splunk, 2023",
-    "app_version": "1.0.0",
-    "utctime_updated": "2023-05-02T09:35:19.351926Z",
-    "package_name": "phantom_shodan",
-    "main_module": "shodan_connector.py",
-    "min_phantom_version": "6.0.0.114895",
-    "app_wizard_version": "1.0.0",
-    "configuration": {
-        "API Key": {
-            "description": "Shodan API Key",
-            "data_type": "string",
-            "required": true,
-            "value_list": [],
-            "default": "",
-            "order": 0,
-            "name": "API Key",
-            "id": 0
-        }
+  "appid": "a106f266-1a20-4389-aefb-a122254ba7ff",
+  "name": "Shodan",
+  "description": "This app integrates with the Shodan Search engine. It supports search and on-demand scanning APIs.",
+  "type": "network security",
+  "product_vendor": "Shodan",
+  "logo": "shodan.png",
+  "logo_dark": "shodan_dark.png",
+  "product_name": "Shodan Search Engine",
+  "python_version": "3",
+  "product_version_regex": ".*",
+  "publisher": "Splunk Community",
+  "contributors": [
+    {
+      "name": "Nikhilesh Chaudhari"
+    }
+  ],
+  "license": "Copyright (c) Splunk, 2023",
+  "app_version": "1.0.0",
+  "utctime_updated": "2023-05-02T09:35:19.351926Z",
+  "package_name": "phantom_shodan",
+  "main_module": "shodan_connector.py",
+  "min_phantom_version": "6.0.0.114895",
+  "app_wizard_version": "1.0.0",
+  "configuration": {
+    "api_key": {
+      "description": "Shodan API Key",
+      "data_type": "string",
+      "required": true,
+      "value_list": [],
+      "default": "",
+      "order": 0,
+      "id": 0
+    }
+  },
+  "actions": [
+    {
+      "action": "test connectivity",
+      "identifier": "test_connectivity",
+      "description": "Validate the asset configuration for connectivity using supplied configuration",
+      "verbose": "",
+      "type": "test",
+      "read_only": true,
+      "parameters": {},
+      "output": [],
+      "versions": "EQ(*)"
     },
-    "actions": [
-        {
-            "action": "test connectivity",
-            "identifier": "test_connectivity",
-            "description": "Validate the asset configuration for connectivity using supplied configuration",
-            "verbose": "",
-            "type": "test",
-            "read_only": true,
-            "parameters": {},
-            "output": [],
-            "versions": "EQ(*)"
+    {
+      "action": "search ip",
+      "identifier": "search_ip",
+      "description": "Returns all services that have been found on the given host IP.",
+      "verbose": "Parameters:\nip: [String] Host IP address\nhistory (optional): [Boolean] True if all historical banners should be returned (default: False)\nminify (optional): [Boolean] True to only return the list of ports and the general host information, no banners. (default: False)",
+      "type": "generic",
+      "read_only": false,
+      "parameters": {
+        "ip": {
+          "description": "Host IP address",
+          "data_type": "string",
+          "required": true,
+          "primary": true,
+          "contains": ["ip"],
+          "value_list": [],
+          "default": "",
+          "order": 0,
+          "name": "ip",
+          "id": 1,
+          "param_name": "ip"
         },
-        {
-            "action": "search ip",
-            "identifier": "search_ip",
-            "description": "Returns all services that have been found on the given host IP.",
-            "verbose": "Parameters:\nip: [String] Host IP address\nhistory (optional): [Boolean] True if all historical banners should be returned (default: False)\nminify (optional): [Boolean] True to only return the list of ports and the general host information, no banners. (default: False)",
-            "type": "generic",
-            "read_only": false,
-            "parameters": {
-                "ip": {
-                    "description": "Host IP address",
-                    "data_type": "string",
-                    "required": true,
-                    "primary": true,
-                    "contains": [
-                        "ip"
-                    ],
-                    "value_list": [],
-                    "default": "",
-                    "order": 0,
-                    "name": "ip",
-                    "id": 1,
-                    "param_name": "ip"
-                },
-                "history": {
-                    "description": "True if all historical banners should be returned (default: False)",
-                    "data_type": "boolean",
-                    "required": false,
-                    "primary": false,
-                    "contains": [],
-                    "default": "",
-                    "order": 1,
-                    "name": "history",
-                    "id": 2,
-                    "param_name": "history"
-                },
-                "minify": {
-                    "description": "True to only return the list of ports and the general host information, no banners. (default: False)",
-                    "data_type": "boolean",
-                    "required": false,
-                    "primary": false,
-                    "contains": [],
-                    "default": "",
-                    "order": 2,
-                    "name": "minify",
-                    "id": 3,
-                    "param_name": "minify"
-                }
-            },
-            "output": [
-                {
-                    "data_path": "action_result.parameter.ip",
-                    "data_type": "string",
-                    "contains": [
-                        "ip"
-                    ],
-                    "column_name": "ip",
-                    "column_order": 0
-                },
-                {
-                    "data_path": "action_result.parameter.history",
-                    "data_type": "boolean",
-                    "contains": [],
-                    "column_name": "history",
-                    "column_order": 1
-                },
-                {
-                    "data_path": "action_result.parameter.minify",
-                    "data_type": "boolean",
-                    "contains": [],
-                    "column_name": "minify",
-                    "column_order": 2
-                },
-                {
-                    "data_path": "action_result.status",
-                    "data_type": "string",
-                    "column_name": "status",
-                    "column_order": 3
-                },
-                {
-                    "data_path": "action_result.message",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "summary.total_objects",
-                    "data_type": "numeric"
-                },
-                {
-                    "data_path": "summary.total_objects_successful",
-                    "data_type": "numeric"
-                },
-                {
-                    "data_path": "action_result.data.*.city",
-                    "data_type": "string",
-                    "column_name": "city",
-                    "column_order": 4
-                },
-                {
-                    "data_path": "action_result.data.*.region_code",
-                    "data_type": "string",
-                    "column_name": "region code",
-                    "column_order": 5
-                },
-                {
-                    "data_path": "action_result.data.*.os",
-                    "data_type": "string",
-                    "column_name": "os",
-                    "column_order": 6
-                },
-                {
-                    "data_path": "action_result.data.*.ip",
-                    "data_type": "numeric",
-                    "column_name": "ip",
-                    "column_order": 7
-                },
-                {
-                    "data_path": "action_result.data.*.isp",
-                    "data_type": "string",
-                    "column_name": "isp",
-                    "column_order": 8
-                },
-                {
-                    "data_path": "action_result.data.*.area_code",
-                    "data_type": "string",
-                    "column_name": "area code",
-                    "column_order": 9
-                },
-                {
-                    "data_path": "action_result.data.*.longitude",
-                    "data_type": "numeric",
-                    "column_name": "longitude",
-                    "column_order": 10
-                },
-                {
-                    "data_path": "action_result.data.*.latitude",
-                    "data_type": "numeric",
-                    "column_name": "latitude",
-                    "column_order": 11
-                },
-                {
-                    "data_path": "action_result.data.*.last_update",
-                    "data_type": "string",
-                    "example_values": [
-                        "1997-09-15T04:00:10.741612"
-                    ],
-                    "column_name": "last update",
-                    "column_order": 12
-                },
-                {
-                    "data_path": "action_result.data.*.ports",
-                    "data_type": "numeric",
-                    "column_name": "ports",
-                    "column_order": 13
-                },
-                {
-                    "data_path": "action_result.data.*.hostnames",
-                    "data_type": "string",
-                    "column_name": "hostnames",
-                    "column_order": 14
-                },
-                {
-                    "data_path": "action_result.data.*.country_code",
-                    "data_type": "string",
-                    "column_name": "country code",
-                    "column_order": 15
-                },
-                {
-                    "data_path": "action_result.data.*.country_name",
-                    "data_type": "string",
-                    "column_name": "country name",
-                    "column_order": 16
-                },
-                {
-                    "data_path": "action_result.data.*.domains",
-                    "data_type": "string",
-                    "column_name": "domains",
-                    "column_order": 17
-                },
-                {
-                    "data_path": "action_result.data.*.tags",
-                    "data_type": "string",
-                    "column_name": "tags",
-                    "column_order": 18
-                },
-                {
-                    "data_path": "action_result.data.*.org",
-                    "data_type": "string",
-                    "column_name": "org",
-                    "column_order": 19
-                },
-                {
-                    "data_path": "action_result.data.*.asn",
-                    "data_type": "string",
-                    "column_name": "asn",
-                    "column_order": 20
-                },
-                {
-                    "data_path": "action_result.data.*.ip_str",
-                    "data_type": "string",
-                    "contains": [
-                        "ip"
-                    ],
-                    "column_name": "ip string",
-                    "column_order": 21
-                },
-                {
-                    "data_path": "action_result.data.*.data",
-                    "data_type": "object"
-                }
-            ],
-            "render": {
-                "type": "table"
-            },
-            "versions": "EQ(*)"
+        "history": {
+          "description": "True if all historical banners should be returned (default: False)",
+          "data_type": "boolean",
+          "required": false,
+          "primary": false,
+          "contains": [],
+          "default": "",
+          "order": 1,
+          "name": "history",
+          "id": 2,
+          "param_name": "history"
         },
-        {
-            "action": "host count",
-            "identifier": "host_count",
-            "description": "Search Shodan without Results",
-            "verbose": "This method behaves identical to \"/shodan/host/search\" with the only difference that this method does not return any host results, it only returns the total number of results that matched the query and any facet information that was requested. As a result this method does not consume query credits.",
-            "type": "generic",
-            "read_only": false,
-            "parameters": {
-                "query": {
-                    "description": "Shodan search query. The provided string is used to search the database of banners in Shodan.",
-                    "data_type": "string",
-                    "required": true,
-                    "primary": true,
-                    "contains": [],
-                    "value_list": [],
-                    "default": "",
-                    "order": 0,
-                    "name": "query"
-                },
-                "facets": {
-                    "description": "A comma-separated list of properties to get summary information on.",
-                    "data_type": "string",
-                    "required": false,
-                    "primary": false,
-                    "contains": [],
-                    "value_list": [],
-                    "default": "",
-                    "order": 1,
-                    "name": "facets"
-                }
-            },
-            "output": [
-                {
-                    "data_path": "action_result.parameter.query",
-                    "data_type": "string",
-                    "contains": [],
-                    "column_name": "query",
-                    "column_order": 0
-                },
-                {
-                    "data_path": "action_result.parameter.facets",
-                    "data_type": "string",
-                    "contains": [],
-                    "column_name": "facets (all)",
-                    "column_order": 1
-                },
-                {
-                    "data_path": "action_result.status",
-                    "data_type": "string",
-                    "column_name": "status",
-                    "column_order": 2
-                },
-                {
-                    "data_path": "action_result.message",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.facet",
-                    "data_type": "string",
-                    "column_name": "facet",
-                    "column_order": 3
-                },
-                {
-                    "data_path": "action_result.data.*.facet_value",
-                    "data_type": "string",
-                    "column_name": "facet value",
-                    "column_order": 4
-                },
-                {
-                    "data_path": "action_result.data.*.facet_count",
-                    "data_type": "numeric",
-                    "column_name": "facet count",
-                    "column_order": 5
-                },
-                {
-                    "data_path": "action_result.summary.total",
-                    "data_type": "numeric",
-                    "column_name": "total",
-                    "column_order": 6
-                },
-                {
-                    "data_path": "summary.total_objects",
-                    "data_type": "numeric"
-                },
-                {
-                    "data_path": "summary.total_objects_successful",
-                    "data_type": "numeric"
-                }
-            ],
-            "render": {
-                "type": "table"
-            },
-            "versions": "EQ(*)"
-        },
-        {
-            "action": "search shodan",
-            "identifier": "search_shodan",
-            "description": "Search Shodan using the same query syntax as the website and use facets to get summary information for different properties.",
-            "verbose": "Requirements\nThis method may use API query credits depending on usage. If any of the following criteria are met, your account will be deducted 1 query credit:\n\n1. The search query contains a filter.\n2. Accessing results past the 1st page using the \"page\". For every 100 results past the 1st page 1 query credit is deducted.",
-            "type": "generic",
-            "read_only": false,
-            "parameters": {
-                "query": {
-                    "description": "Shodan search query.",
-                    "data_type": "string",
-                    "required": true,
-                    "primary": true,
-                    "contains": [],
-                    "value_list": [],
-                    "default": "",
-                    "order": 0,
-                    "name": "query",
-                    "id": 1,
-                    "param_name": "query"
-                },
-                "facets": {
-                    "description": "A comma-separated list of properties to get summary information on.",
-                    "data_type": "string",
-                    "required": false,
-                    "primary": false,
-                    "contains": [],
-                    "value_list": [],
-                    "default": "",
-                    "order": 1,
-                    "name": "facets",
-                    "id": 2,
-                    "param_name": "facets"
-                },
-                "page": {
-                    "description": "The page number to page through results 100 at a time (default: 1)",
-                    "data_type": "numeric",
-                    "required": false,
-                    "primary": false,
-                    "contains": [],
-                    "value_list": [],
-                    "default": "1",
-                    "order": 2,
-                    "name": "page",
-                    "id": 3,
-                    "param_name": "page"
-                },
-                "minify": {
-                    "description": "Whether or not to truncate some of the larger fields (default: True)",
-                    "data_type": "boolean",
-                    "required": false,
-                    "primary": false,
-                    "contains": [],
-                    "default": true,
-                    "order": 3,
-                    "name": "minify",
-                    "id": 4,
-                    "param_name": "minify"
-                }
-            },
-            "output": [
-                {
-                    "data_path": "action_result.parameter.query",
-                    "data_type": "string",
-                    "contains": [],
-                    "column_name": "query",
-                    "column_order": 0
-                },
-                {
-                    "data_path": "action_result.parameter.facets",
-                    "data_type": "string",
-                    "contains": [],
-                    "column_name": "facets",
-                    "column_order": 1
-                },
-                {
-                    "data_path": "action_result.parameter.page",
-                    "data_type": "numeric",
-                    "contains": [],
-                    "column_name": "page",
-                    "column_order": 2
-                },
-                {
-                    "data_path": "action_result.parameter.minify",
-                    "data_type": "boolean",
-                    "contains": [],
-                    "column_name": "minify",
-                    "column_order": 3
-                },
-                {
-                    "data_path": "action_result.status",
-                    "data_type": "string",
-                    "column_name": "status",
-                    "column_order": 4
-                },
-                {
-                    "data_path": "action_result.message",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "summary.total_objects",
-                    "data_type": "numeric"
-                },
-                {
-                    "data_path": "summary.total_objects_successful",
-                    "data_type": "numeric"
-                },
-                {
-                    "data_path": "action_result.data.*.ip",
-                    "data_type": "numeric",
-                    "column_name": "ip",
-                    "column_order": 5
-                },
-                {
-                    "data_path": "action_result.data.*.port",
-                    "data_type": "numeric",
-                    "column_name": "port",
-                    "column_order": 6
-                },
-                {
-                    "data_path": "action_result.data.*.transport",
-                    "data_type": "string",
-                    "column_name": "transport",
-                    "column_order": 7
-                },
-                {
-                    "data_path": "action_result.data.*.hash",
-                    "data_type": "numeric",
-                    "column_name": "hash",
-                    "column_order": 8
-                },
-                {
-                    "data_path": "action_result.data.*.asn",
-                    "data_type": "string",
-                    "column_name": "asn",
-                    "column_order": 9
-                },
-                {
-                    "data_path": "action_result.data.*.os",
-                    "data_type": "string",
-                    "column_name": "os",
-                    "column_order": 10
-                },
-                {
-                    "data_path": "action_result.data.*.tags",
-                    "data_type": "array",
-                    "column_name": "tags",
-                    "column_order": 11
-                },
-                {
-                    "data_path": "action_result.data.*.timestamp",
-                    "data_type": "string",
-                    "column_name": "timestamp",
-                    "column_order": 12,
-                    "example_values": [
-                        "1997-09-15T04:00:10.741612"
-                    ]
-                },
-                {
-                    "data_path": "action_result.data.*.isp",
-                    "data_type": "string",
-                    "column_name": "isp",
-                    "column_order": 13
-                },
-                {
-                    "data_path": "action_result.data.*.hostnames",
-                    "data_type": "array",
-                    "column_name": "hostnames",
-                    "column_order": 14
-                },
-                {
-                    "data_path": "action_result.data.*.domains",
-                    "data_type": "array",
-                    "column_name": "domains",
-                    "column_order": 15
-                },
-                {
-                    "data_path": "action_result.data.*.org",
-                    "data_type": "string",
-                    "column_name": "org",
-                    "column_order": 16
-                },
-                {
-                    "data_path": "action_result.data.*.ip_str",
-                    "data_type": "string",
-                    "column_name": "ip_str",
-                    "column_order": 17
-                },
-                {
-                    "data_path": "action_result.data.*.cpe23",
-                    "data_type": "array",
-                    "column_name": "cpe23",
-                    "column_order": 18
-                },
-                {
-                    "data_path": "action_result.data.*.cpe",
-                    "data_type": "array",
-                    "column_name": "cpe",
-                    "column_order": 19
-                },
-                {
-                    "data_path": "action_result.data.*.product",
-                    "data_type": "string",
-                    "column_name": "product",
-                    "column_order": 20
-                },
-                {
-                    "data_path": "action_result.data.*.version",
-                    "data_type": "string",
-                    "column_name": "version",
-                    "column_order": 21
-                },
-                {
-                    "data_path": "action_result.data.*.info",
-                    "data_type": "string",
-                    "column_name": "info",
-                    "column_order": 22
-                },
-                {
-                    "data_path": "action_result.data.*.ipv6",
-                    "data_type": "string",
-                    "column_name": "ipv6",
-                    "column_order": 23
-                },
-                {
-                    "data_path": "action_result.data.*.cloud.region",
-                    "data_type": "string",
-                    "column_name": "cloud region",
-                    "column_order": 24
-                },
-                {
-                    "data_path": "action_result.data.*.cloud.service",
-                    "data_type": "string",
-                    "column_name": "cloud service",
-                    "column_order": 25
-                },
-                {
-                    "data_path": "action_result.data.*.cloud.provider",
-                    "data_type": "string",
-                    "column_name": "cloud provider",
-                    "column_order": 26
-                },
-                {
-                    "data_path": "action_result.data.*.location.city",
-                    "data_type": "string",
-                    "column_name": "city",
-                    "column_order": 24
-                },
-                {
-                    "data_path": "action_result.data.*.location.region_code",
-                    "data_type": "string",
-                    "column_name": "region code",
-                    "column_order": 25
-                },
-                {
-                    "data_path": "action_result.data.*.location.area_code",
-                    "data_type": "string",
-                    "column_name": "area code",
-                    "column_order": 26
-                },
-                {
-                    "data_path": "action_result.data.*.location.longitude",
-                    "data_type": "numeric",
-                    "column_name": "longitude",
-                    "column_order": 27
-                },
-                {
-                    "data_path": "action_result.data.*.location.latitude",
-                    "data_type": "numeric",
-                    "column_name": "latitude",
-                    "column_order": 28
-                },
-                {
-                    "data_path": "action_result.data.*.location.country_code",
-                    "data_type": "string",
-                    "column_name": "country code",
-                    "column_order": 29
-                },
-                {
-                    "data_path": "action_result.data.*.location.country_name",
-                    "data_type": "string",
-                    "column_name": "country name",
-                    "column_order": 30
-                },
-                {
-                    "data_path": "action_result.data.*._shodan.region",
-                    "data_type": "string",
-                    "column_name": "shodan region",
-                    "column_order": 31
-                },
-                {
-                    "data_path": "action_result.data.*._shodan.ptr",
-                    "data_type": "string",
-                    "column_name": "shodan ptr",
-                    "column_order": 32
-                },
-                {
-                    "data_path": "action_result.data.*._shodan.module",
-                    "data_type": "string",
-                    "column_name": "shodan module",
-                    "column_order": 33
-                },
-                {
-                    "data_path": "action_result.data.*._shodan.id",
-                    "data_type": "string",
-                    "column_name": "shodan id",
-                    "column_order": 34
-                },
-                {
-                    "data_path": "action_result.data.*._shodan.crawler",
-                    "data_type": "string",
-                    "column_name": "shodan crawler",
-                    "column_order": 35
-                },
-                {
-                    "data_path": "action_result.data.*._shodan.options.hostname",
-                    "data_type": "string",
-                    "column_name": "shodan hostname",
-                    "column_order": 36
-                },
-                {
-                    "data_path": "action_result.data.*._shodan.options.scan",
-                    "data_type": "string",
-                    "column_name": "shodan scan",
-                    "column_order": 37
-                }
-            ],
-            "render": {
-                "type": "table"
-            },
-            "versions": "EQ(*)"
-        },
-        {
-            "action": "search parameter",
-            "identifier": "search_parameter",
-            "description": "List all search facets, filters",
-            "verbose": "This method returns a list of facets that can be used to get a breakdown of the top values for a property or search filters that can be used in the search query.",
-            "type": "generic",
-            "read_only": false,
-            "parameters": {
-                "parameter_to_search": {
-                    "description": "Select parameter from dropdown",
-                    "data_type": "string",
-                    "required": true,
-                    "primary": false,
-                    "contains": [],
-                    "value_list": [
-                        "facets",
-                        "filters"
-                    ],
-                    "default": "",
-                    "order": 0,
-                    "name": "parameter_to_search"
-                }
-            },
-            "output": [
-                {
-                    "data_path": "action_result.parameter.parameter_to_search",
-                    "data_type": "string",
-                    "contains": [],
-                    "column_name": "parameter_to_search",
-                    "column_order": 0
-                },
-                {
-                    "data_path": "action_result.status",
-                    "data_type": "string",
-                    "column_name": "status",
-                    "column_order": 1
-                },
-                {
-                    "data_path": "action_result.data",
-                    "data_type": "array",
-                    "column_name": "Values",
-                    "column_order": 2
-                },
-                {
-                    "data_path": "action_result.message",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "summary.total_objects",
-                    "data_type": "numeric"
-                },
-                {
-                    "data_path": "summary.total_objects_successful",
-                    "data_type": "numeric"
-                }
-            ],
-            "render": {
-                "type": "table"
-            },
-            "versions": "EQ(*)"
-        },
-        {
-            "action": "search token",
-            "identifier": "search_token",
-            "description": "Break the search query into tokens",
-            "verbose": "This method lets you determine which filters are being used by the query string and what parameters were provided to the filters.",
-            "type": "generic",
-            "read_only": false,
-            "parameters": {
-                "query": {
-                    "description": "Shodan search query. The provided string is used to search the database of banners in Shodan",
-                    "data_type": "string",
-                    "required": true,
-                    "primary": true,
-                    "contains": [],
-                    "value_list": [],
-                    "default": "",
-                    "order": 0,
-                    "name": "query"
-                }
-            },
-            "output": [
-                {
-                    "data_path": "action_result.parameter.query",
-                    "data_type": "string",
-                    "contains": [],
-                    "column_name": "query",
-                    "column_order": 0
-                },
-                {
-                    "data_path": "action_result.status",
-                    "data_type": "string",
-                    "column_name": "status",
-                    "column_order": 1
-                },
-                {
-                    "data_path": "action_result.data.*.string",
-                    "data_type": "string",
-                    "column_name": "query string",
-                    "column_order": 2
-                },
-                {
-                    "data_path": "action_result.data.*.filters",
-                    "data_type": "array",
-                    "column_name": "filters",
-                    "column_order": 4
-                },
-                {
-                    "data_path": "action_result.data.*.errors",
-                    "data_type": "array",
-                    "column_name": "errors",
-                    "column_order": 5
-                },
-                {
-                    "data_path": "action_result.data.*.attributes",
-                    "data_type": "object",
-                    "column_name": "attributes",
-                    "column_order": 6
-                },
-                {
-                    "data_path": "action_result.message",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "summary.total_objects",
-                    "data_type": "numeric"
-                },
-                {
-                    "data_path": "summary.total_objects_successful",
-                    "data_type": "numeric"
-                }
-            ],
-            "render": {
-                "type": "table"
-            },
-            "versions": "EQ(*)"
-        },
-        {
-            "action": "scan ports",
-            "identifier": "scan_ports",
-            "description": "List all ports that Shodan is crawling on the Internet.",
-            "verbose": "This method returns a list of port numbers that the crawlers are looking for.",
-            "type": "generic",
-            "read_only": false,
-            "parameters": {},
-            "output": [
-                {
-                    "data_path": "action_result.status",
-                    "data_type": "string",
-                    "column_name": "status",
-                    "column_order": 0
-                },
-                {
-                    "data_path": "action_result.data",
-                    "data_type": "array",
-                    "column_name": "Ports",
-                    "column_order": 1
-                },
-                {
-                    "data_path": "action_result.message",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "summary.total_objects",
-                    "data_type": "numeric"
-                },
-                {
-                    "data_path": "summary.total_objects_successful",
-                    "data_type": "numeric"
-                }
-            ],
-            "render": {
-                "type": "table"
-            },
-            "versions": "EQ(*)"
-        },
-        {
-            "action": "scan protocols",
-            "identifier": "scan_protocols",
-            "description": "List all protocols that can be used when performing on-demand Internet scans via Shodan.",
-            "verbose": "This method returns an object containing all the protocols that can be used when launching an Internet scan.",
-            "type": "generic",
-            "read_only": false,
-            "parameters": {},
-            "output": [
-                {
-                    "data_path": "action_result.status",
-                    "data_type": "string",
-                    "column_name": "status",
-                    "column_order": 0
-                },
-                {
-                    "data_path": "action_result.data.*.protocol_name",
-                    "data_type": "string",
-                    "column_name": "name",
-                    "column_order": 1
-                },
-                {
-                    "data_path": "action_result.data.*.protocol_desc",
-                    "data_type": "string",
-                    "column_name": "description",
-                    "column_order": 2
-                },
-                {
-                    "data_path": "action_result.message",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "summary.total_objects",
-                    "data_type": "numeric"
-                },
-                {
-                    "data_path": "summary.total_objects_successful",
-                    "data_type": "numeric"
-                }
-            ],
-            "render": {
-                "type": "table"
-            },
-            "versions": "EQ(*)"
-        },
-        {
-            "action": "scan ip only",
-            "identifier": "ip_only_scan",
-            "description": "Request Shodan to crawl an IP/ netblock",
-            "verbose": "Use this method to request Shodan to crawl a network.\n\nRequirements\nThis method uses API scan credits: 1 IP consumes 1 scan credit. You must have a paid API plan (either one-time payment or subscription) in order to use this method.",
-            "type": "generic",
-            "read_only": false,
-            "parameters": {
-                "ip_list": {
-                    "description": "A comma-separated list of IPs or netblocks (in CIDR notation) that should get crawled. ip_1,ip_2,...,ip_n",
-                    "data_type": "string",
-                    "required": true,
-                    "primary": true,
-                    "contains": [],
-                    "value_list": [],
-                    "default": "",
-                    "order": 0,
-                    "name": "ip_list",
-                    "id": 1,
-                    "param_name": "ip_list"
-                },
-                "force": {
-                    "description": "Whether or not to force Shodan to re-scan the provided IPs. Only available to enterprise users.",
-                    "data_type": "boolean",
-                    "required": false,
-                    "primary": false,
-                    "contains": [],
-                    "default": false,
-                    "order": 1,
-                    "name": "force",
-                    "id": 2,
-                    "param_name": "force",
-                    "descriptionError": false
-                }
-            },
-            "output": [
-                {
-                    "data_path": "action_result.parameter.ip_list",
-                    "data_type": "string",
-                    "contains": [],
-                    "column_name": "ip_list",
-                    "column_order": 0
-                },
-                {
-                    "data_path": "action_result.parameter.force",
-                    "data_type": "boolean",
-                    "contains": [],
-                    "column_name": "force",
-                    "column_order": 1
-                },
-                {
-                    "data_path": "action_result.status",
-                    "data_type": "string",
-                    "column_name": "status",
-                    "column_order": 2
-                },
-                {
-                    "data_path": "action_result.data.*.id",
-                    "data_type": "string",
-                    "column_name": "scan id",
-                    "column_order": 3
-                },
-                {
-                    "data_path": "action_result.data.*.count",
-                    "data_type": "string",
-                    "column_name": "ip count",
-                    "column_order": 4
-                },
-                {
-                    "data_path": "action_result.data.*.credits_left",
-                    "data_type": "string",
-                    "column_name": "credits left",
-                    "column_order": 5
-                },
-                {
-                    "data_path": "action_result.message",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "summary.total_objects",
-                    "data_type": "numeric"
-                },
-                {
-                    "data_path": "summary.total_objects_successful",
-                    "data_type": "numeric"
-                }
-            ],
-            "render": {
-                "type": "table"
-            },
-            "versions": "EQ(*)"
-        },
-        {
-            "action": "scan ip with services",
-            "identifier": "scan_ip_with_services",
-            "description": "A pipe-separated list of IPs or netblocks (in CIDR notation) that should get crawled with services.",
-            "verbose": "By default, the Shodan crawlers will check all the standard ports it normally crawls. However, you can also provide the services, a specific list of ports/ protocols you'd like the crawlers to use. A service is defined as a [port, protocol] in this action.\n\nThis action requires a pipe-separated list of IP addresses along with their services. \nProvide input to this action in the following format,\n\nip_1:[ip_1_service_1],[ip_1_service_2] | ip_2:[ip_2_service_1],[ip_2_service_2] | ...\n\nexample:\n1.1.1.1: [[53,dns-udp], [443, https]] | 8.8.8.8: [[53, dns-tcp]] | 12.8.8.8: [[53, dns-tcp]]",
-            "type": "generic",
-            "read_only": false,
-            "parameters": {
-                "ip_with_services": {
-                    "description": "A pipe-separated list of IP addresses along with their services. ip_1:[ip_1_service_1],[ip_1_service_2] | ip_2:[ip_2_service_1],[ip_2_service_2] | ...",
-                    "data_type": "string",
-                    "required": true,
-                    "primary": true,
-                    "contains": [],
-                    "value_list": [],
-                    "default": "",
-                    "order": 0,
-                    "name": "ip_with_services",
-                    "id": 1,
-                    "param_name": "ip_with_services"
-                },
-                "force": {
-                    "description": "Whether or not to force Shodan to re-scan the provided IPs. Only available to enterprise users.",
-                    "data_type": "boolean",
-                    "required": false,
-                    "primary": false,
-                    "contains": [],
-                    "default": false,
-                    "order": 1,
-                    "name": "force",
-                    "id": 2,
-                    "param_name": "force"
-                }
-            },
-            "output": [
-                {
-                    "data_path": "action_result.parameter.ip_with_services",
-                    "data_type": "string",
-                    "contains": [],
-                    "column_name": "ip_with_services",
-                    "column_order": 0
-                },
-                {
-                    "data_path": "action_result.parameter.force",
-                    "data_type": "boolean",
-                    "contains": [],
-                    "column_name": "force",
-                    "column_order": 1
-                },
-                {
-                    "data_path": "action_result.status",
-                    "data_type": "string",
-                    "column_name": "status",
-                    "column_order": 2
-                },
-                {
-                    "data_path": "action_result.message",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "summary.total_objects",
-                    "data_type": "numeric"
-                },
-                {
-                    "data_path": "summary.total_objects_successful",
-                    "data_type": "numeric"
-                }
-            ],
-            "render": {
-                "type": "table"
-            },
-            "versions": "EQ(*)"
-        },
-        {
-            "action": "scan internet",
-            "identifier": "scan_internet",
-            "description": "Crawl the Internet for a specific port and protocol using Shodan",
-            "verbose": "Use this method to request Shodan to crawl the Internet for a specific port.\n\nRequirements\nThis method is restricted to security researchers and companies with a Shodan Enterprise Data license. To apply for access to this method as a researcher, please email jmath@shodan.io with information about your project. Access is restricted to prevent abuse.\n\nParameters\nport: [Integer] The port that Shodan should crawl the Internet for.\nprotocol: [String] The name of the protocol that should be used to interrogate the port. See /shodan/protocols for a list of supported protocols.",
-            "type": "generic",
-            "read_only": false,
-            "parameters": {
-                "port": {
-                    "description": "The port that Shodan should crawl the Internet for.",
-                    "data_type": "string",
-                    "required": true,
-                    "primary": false,
-                    "contains": [],
-                    "value_list": [],
-                    "default": "",
-                    "order": 0,
-                    "name": "port",
-                    "id": 1,
-                    "param_name": "port"
-                },
-                "protocol": {
-                    "description": "The name of the protocol that should be used to interrogate the port. See /shodan/protocols for a list of supported protocols.",
-                    "data_type": "string",
-                    "required": true,
-                    "primary": false,
-                    "contains": [],
-                    "value_list": [],
-                    "default": "",
-                    "order": 1,
-                    "name": "protocol",
-                    "id": 2,
-                    "param_name": "protocol"
-                }
-            },
-            "output": [
-                {
-                    "data_path": "action_result.parameter.port",
-                    "data_type": "string",
-                    "contains": [],
-                    "column_name": "port",
-                    "column_order": 0
-                },
-                {
-                    "data_path": "action_result.parameter.protocol",
-                    "data_type": "string",
-                    "contains": [],
-                    "column_name": "protocol",
-                    "column_order": 1
-                },
-                {
-                    "data_path": "action_result.status",
-                    "data_type": "string",
-                    "column_name": "status",
-                    "column_order": 2
-                },
-                {
-                    "data_path": "action_result.data.*.id",
-                    "data_type": "string",
-                    "column_name": "scan id",
-                    "column_order": 3
-                },
-                {
-                    "data_path": "action_result.message",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "summary.total_objects",
-                    "data_type": "numeric"
-                },
-                {
-                    "data_path": "summary.total_objects_successful",
-                    "data_type": "numeric"
-                }
-            ],
-            "render": {
-                "type": "table"
-            },
-            "versions": "EQ(*)"
-        },
-        {
-            "action": "scan status bulk",
-            "identifier": "scan_status_bulk",
-            "description": "Get list of all the created scans",
-            "verbose": "Returns a listing of all the on-demand scans that are currently active on the account.",
-            "type": "generic",
-            "read_only": true,
-            "parameters": {
-                "page_number": {
-                    "description": "From page number. Each page contains 100 scan results in it.",
-                    "data_type": "string",
-                    "required": false,
-                    "primary": false,
-                    "contains": [],
-                    "value_list": [],
-                    "default": "",
-                    "order": 0,
-                    "name": "page_number",
-                    "id": 1,
-                    "param_name": "page_number"
-                }
-            },
-            "output": [
-                {
-                    "data_path": "action_result.parameter.page_number",
-                    "data_type": "string",
-                    "contains": [],
-                    "column_name": "page_number",
-                    "column_order": 0
-                },
-                {
-                    "data_path": "action_result.status",
-                    "data_type": "string",
-                    "column_name": "status",
-                    "column_order": 1
-                },
-                {
-                    "data_path": "action_result.data.*.matches.*.status",
-                    "data_type": "string",
-                    "column_name": "scan status",
-                    "example_values": [
-                        "DONE",
-                        "QUEUE"
-                    ],
-                    "column_order": 2
-                },
-                {
-                    "data_path": "action_result.data.*.matches.*.created",
-                    "data_type": "string",
-                    "column_name": "created date",
-                    "example_values": [
-                        "2023-05-02T02:44:00.714000"
-                    ],
-                    "column_order": 3
-                },
-                {
-                    "data_path": "action_result.data.*.matches.*.status_check",
-                    "data_type": "string",
-                    "column_name": "status check date",
-                    "example_values": [
-                        "2023-05-02T02:44:00.714000"
-                    ],
-                    "column_order": 4
-                },
-                {
-                    "data_path": "action_result.data.*.matches.*.credits_left",
-                    "data_type": "numeric",
-                    "column_name": "credits left",
-                    "column_order": 5
-                },
-                {
-                    "data_path": "action_result.data.*.matches.*.id",
-                    "data_type": "string",
-                    "column_name": "Scan ID",
-                    "column_order": 6
-                },
-                {
-                    "data_path": "action_result.data.*.matches.*.size",
-                    "data_type": "numeric",
-                    "column_name": "size",
-                    "column_order": 7
-                },
-                {
-                    "data_path": "action_result.message",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "summary.total_objects",
-                    "data_type": "numeric"
-                },
-                {
-                    "data_path": "summary.total_objects_successful",
-                    "data_type": "numeric"
-                }
-            ],
-            "render": {
-                "type": "table"
-            },
-            "versions": "EQ(*)"
-        },
-        {
-            "action": "shodan scan individual",
-            "identifier": "shodan_scan_individual",
-            "description": "Get the status of a scan request",
-            "verbose": "Check the progress of a previously submitted scan request. Possible values for the status are:\nSUBMITTING,\nQUEUE,\nPROCESSING,\nDONE.",
-            "type": "generic",
-            "read_only": true,
-            "parameters": {
-                "id": {
-                    "description": "The unique scan ID that was returned by /shodan/scan.",
-                    "data_type": "string",
-                    "required": true,
-                    "primary": true,
-                    "contains": [],
-                    "value_list": [],
-                    "default": "",
-                    "order": 0,
-                    "name": "id",
-                    "id": 1,
-                    "param_name": "id"
-                }
-            },
-            "output": [
-                {
-                    "data_path": "action_result.parameter.id",
-                    "data_type": "string",
-                    "contains": [],
-                    "column_name": "id",
-                    "column_order": 0
-                },
-                {
-                    "data_path": "action_result.status",
-                    "data_type": "string",
-                    "column_name": "status",
-                    "column_order": 1
-                },
-                {
-                    "data_path": "action_result.data.*.status",
-                    "data_type": "string",
-                    "column_name": "status",
-                    "column_order": 2
-                },
-                {
-                    "data_path": "action_result.data.*.created",
-                    "data_type": "string",
-                    "column_name": "created date",
-                    "example_values": [
-                        "2023-05-02T02:44:00.714000"
-                    ],
-                    "column_order": 3
-                },
-                {
-                    "data_path": "action_result.data.*.count",
-                    "data_type": "string",
-                    "column_name": "IP Count",
-                    "column_order": 4
-                },
-                {
-                    "data_path": "action_result.message",
-                    "data_type": "string"
-                }
-            ],
-            "render": {
-                "type": "table"
-            },
-            "versions": "EQ(*)"
+        "minify": {
+          "description": "True to only return the list of ports and the general host information, no banners. (default: False)",
+          "data_type": "boolean",
+          "required": false,
+          "primary": false,
+          "contains": [],
+          "default": "",
+          "order": 2,
+          "name": "minify",
+          "id": 3,
+          "param_name": "minify"
         }
+      },
+      "output": [
+        {
+          "data_path": "action_result.parameter.ip",
+          "data_type": "string",
+          "contains": ["ip"],
+          "column_name": "ip",
+          "column_order": 0
+        },
+        {
+          "data_path": "action_result.parameter.history",
+          "data_type": "boolean",
+          "contains": [],
+          "column_name": "history",
+          "column_order": 1
+        },
+        {
+          "data_path": "action_result.parameter.minify",
+          "data_type": "boolean",
+          "contains": [],
+          "column_name": "minify",
+          "column_order": 2
+        },
+        {
+          "data_path": "action_result.status",
+          "data_type": "string",
+          "column_name": "status",
+          "column_order": 3
+        },
+        {
+          "data_path": "action_result.message",
+          "data_type": "string"
+        },
+        {
+          "data_path": "summary.total_objects",
+          "data_type": "numeric"
+        },
+        {
+          "data_path": "summary.total_objects_successful",
+          "data_type": "numeric"
+        },
+        {
+          "data_path": "action_result.data.*.city",
+          "data_type": "string",
+          "column_name": "city",
+          "column_order": 4
+        },
+        {
+          "data_path": "action_result.data.*.region_code",
+          "data_type": "string",
+          "column_name": "region code",
+          "column_order": 5
+        },
+        {
+          "data_path": "action_result.data.*.os",
+          "data_type": "string",
+          "column_name": "os",
+          "column_order": 6
+        },
+        {
+          "data_path": "action_result.data.*.ip",
+          "data_type": "numeric",
+          "column_name": "ip",
+          "column_order": 7
+        },
+        {
+          "data_path": "action_result.data.*.isp",
+          "data_type": "string",
+          "column_name": "isp",
+          "column_order": 8
+        },
+        {
+          "data_path": "action_result.data.*.area_code",
+          "data_type": "string",
+          "column_name": "area code",
+          "column_order": 9
+        },
+        {
+          "data_path": "action_result.data.*.longitude",
+          "data_type": "numeric",
+          "column_name": "longitude",
+          "column_order": 10
+        },
+        {
+          "data_path": "action_result.data.*.latitude",
+          "data_type": "numeric",
+          "column_name": "latitude",
+          "column_order": 11
+        },
+        {
+          "data_path": "action_result.data.*.last_update",
+          "data_type": "string",
+          "example_values": ["1997-09-15T04:00:10.741612"],
+          "column_name": "last update",
+          "column_order": 12
+        },
+        {
+          "data_path": "action_result.data.*.ports",
+          "data_type": "numeric",
+          "column_name": "ports",
+          "column_order": 13
+        },
+        {
+          "data_path": "action_result.data.*.hostnames",
+          "data_type": "string",
+          "column_name": "hostnames",
+          "column_order": 14
+        },
+        {
+          "data_path": "action_result.data.*.country_code",
+          "data_type": "string",
+          "column_name": "country code",
+          "column_order": 15
+        },
+        {
+          "data_path": "action_result.data.*.country_name",
+          "data_type": "string",
+          "column_name": "country name",
+          "column_order": 16
+        },
+        {
+          "data_path": "action_result.data.*.domains",
+          "data_type": "string",
+          "column_name": "domains",
+          "column_order": 17
+        },
+        {
+          "data_path": "action_result.data.*.tags",
+          "data_type": "string",
+          "column_name": "tags",
+          "column_order": 18
+        },
+        {
+          "data_path": "action_result.data.*.org",
+          "data_type": "string",
+          "column_name": "org",
+          "column_order": 19
+        },
+        {
+          "data_path": "action_result.data.*.asn",
+          "data_type": "string",
+          "column_name": "asn",
+          "column_order": 20
+        },
+        {
+          "data_path": "action_result.data.*.ip_str",
+          "data_type": "string",
+          "contains": ["ip"],
+          "column_name": "ip string",
+          "column_order": 21
+        },
+        {
+          "data_path": "action_result.data.*.data",
+          "data_type": "object"
+        }
+      ],
+      "render": {
+        "type": "table"
+      },
+      "versions": "EQ(*)"
+    },
+    {
+      "action": "host count",
+      "identifier": "host_count",
+      "description": "Search Shodan without Results",
+      "verbose": "This method behaves identical to \"/shodan/host/search\" with the only difference that this method does not return any host results, it only returns the total number of results that matched the query and any facet information that was requested. As a result this method does not consume query credits.",
+      "type": "generic",
+      "read_only": false,
+      "parameters": {
+        "query": {
+          "description": "Shodan search query. The provided string is used to search the database of banners in Shodan.",
+          "data_type": "string",
+          "required": true,
+          "primary": true,
+          "contains": [],
+          "value_list": [],
+          "default": "",
+          "order": 0,
+          "name": "query"
+        },
+        "facets": {
+          "description": "A comma-separated list of properties to get summary information on.",
+          "data_type": "string",
+          "required": false,
+          "primary": false,
+          "contains": [],
+          "value_list": [],
+          "default": "",
+          "order": 1,
+          "name": "facets"
+        }
+      },
+      "output": [
+        {
+          "data_path": "action_result.parameter.query",
+          "data_type": "string",
+          "contains": [],
+          "column_name": "query",
+          "column_order": 0
+        },
+        {
+          "data_path": "action_result.parameter.facets",
+          "data_type": "string",
+          "contains": [],
+          "column_name": "facets (all)",
+          "column_order": 1
+        },
+        {
+          "data_path": "action_result.status",
+          "data_type": "string",
+          "column_name": "status",
+          "column_order": 2
+        },
+        {
+          "data_path": "action_result.message",
+          "data_type": "string"
+        },
+        {
+          "data_path": "action_result.data.*.facet",
+          "data_type": "string",
+          "column_name": "facet",
+          "column_order": 3
+        },
+        {
+          "data_path": "action_result.data.*.facet_value",
+          "data_type": "string",
+          "column_name": "facet value",
+          "column_order": 4
+        },
+        {
+          "data_path": "action_result.data.*.facet_count",
+          "data_type": "numeric",
+          "column_name": "facet count",
+          "column_order": 5
+        },
+        {
+          "data_path": "action_result.summary.total",
+          "data_type": "numeric",
+          "column_name": "total",
+          "column_order": 6
+        },
+        {
+          "data_path": "summary.total_objects",
+          "data_type": "numeric"
+        },
+        {
+          "data_path": "summary.total_objects_successful",
+          "data_type": "numeric"
+        }
+      ],
+      "render": {
+        "type": "table"
+      },
+      "versions": "EQ(*)"
+    },
+    {
+      "action": "search shodan",
+      "identifier": "search_shodan",
+      "description": "Search Shodan using the same query syntax as the website and use facets to get summary information for different properties.",
+      "verbose": "Requirements\nThis method may use API query credits depending on usage. If any of the following criteria are met, your account will be deducted 1 query credit:\n\n1. The search query contains a filter.\n2. Accessing results past the 1st page using the \"page\". For every 100 results past the 1st page 1 query credit is deducted.",
+      "type": "generic",
+      "read_only": false,
+      "parameters": {
+        "query": {
+          "description": "Shodan search query.",
+          "data_type": "string",
+          "required": true,
+          "primary": true,
+          "contains": [],
+          "value_list": [],
+          "default": "",
+          "order": 0,
+          "name": "query",
+          "id": 1,
+          "param_name": "query"
+        },
+        "facets": {
+          "description": "A comma-separated list of properties to get summary information on.",
+          "data_type": "string",
+          "required": false,
+          "primary": false,
+          "contains": [],
+          "value_list": [],
+          "default": "",
+          "order": 1,
+          "name": "facets",
+          "id": 2,
+          "param_name": "facets"
+        },
+        "page": {
+          "description": "The page number to page through results 100 at a time (default: 1)",
+          "data_type": "numeric",
+          "required": false,
+          "primary": false,
+          "contains": [],
+          "value_list": [],
+          "default": "1",
+          "order": 2,
+          "name": "page",
+          "id": 3,
+          "param_name": "page"
+        },
+        "minify": {
+          "description": "Whether or not to truncate some of the larger fields (default: True)",
+          "data_type": "boolean",
+          "required": false,
+          "primary": false,
+          "contains": [],
+          "default": true,
+          "order": 3,
+          "name": "minify",
+          "id": 4,
+          "param_name": "minify"
+        }
+      },
+      "output": [
+        {
+          "data_path": "action_result.parameter.query",
+          "data_type": "string",
+          "contains": [],
+          "column_name": "query",
+          "column_order": 0
+        },
+        {
+          "data_path": "action_result.parameter.facets",
+          "data_type": "string",
+          "contains": [],
+          "column_name": "facets",
+          "column_order": 1
+        },
+        {
+          "data_path": "action_result.parameter.page",
+          "data_type": "numeric",
+          "contains": [],
+          "column_name": "page",
+          "column_order": 2
+        },
+        {
+          "data_path": "action_result.parameter.minify",
+          "data_type": "boolean",
+          "contains": [],
+          "column_name": "minify",
+          "column_order": 3
+        },
+        {
+          "data_path": "action_result.status",
+          "data_type": "string",
+          "column_name": "status",
+          "column_order": 4
+        },
+        {
+          "data_path": "action_result.message",
+          "data_type": "string"
+        },
+        {
+          "data_path": "summary.total_objects",
+          "data_type": "numeric"
+        },
+        {
+          "data_path": "summary.total_objects_successful",
+          "data_type": "numeric"
+        },
+        {
+          "data_path": "action_result.data.*.ip",
+          "data_type": "numeric",
+          "column_name": "ip",
+          "column_order": 5
+        },
+        {
+          "data_path": "action_result.data.*.port",
+          "data_type": "numeric",
+          "column_name": "port",
+          "column_order": 6
+        },
+        {
+          "data_path": "action_result.data.*.transport",
+          "data_type": "string",
+          "column_name": "transport",
+          "column_order": 7
+        },
+        {
+          "data_path": "action_result.data.*.hash",
+          "data_type": "numeric",
+          "column_name": "hash",
+          "column_order": 8
+        },
+        {
+          "data_path": "action_result.data.*.asn",
+          "data_type": "string",
+          "column_name": "asn",
+          "column_order": 9
+        },
+        {
+          "data_path": "action_result.data.*.os",
+          "data_type": "string",
+          "column_name": "os",
+          "column_order": 10
+        },
+        {
+          "data_path": "action_result.data.*.tags",
+          "data_type": "array",
+          "column_name": "tags",
+          "column_order": 11
+        },
+        {
+          "data_path": "action_result.data.*.timestamp",
+          "data_type": "string",
+          "column_name": "timestamp",
+          "column_order": 12,
+          "example_values": ["1997-09-15T04:00:10.741612"]
+        },
+        {
+          "data_path": "action_result.data.*.isp",
+          "data_type": "string",
+          "column_name": "isp",
+          "column_order": 13
+        },
+        {
+          "data_path": "action_result.data.*.hostnames",
+          "data_type": "array",
+          "column_name": "hostnames",
+          "column_order": 14
+        },
+        {
+          "data_path": "action_result.data.*.domains",
+          "data_type": "array",
+          "column_name": "domains",
+          "column_order": 15
+        },
+        {
+          "data_path": "action_result.data.*.org",
+          "data_type": "string",
+          "column_name": "org",
+          "column_order": 16
+        },
+        {
+          "data_path": "action_result.data.*.ip_str",
+          "data_type": "string",
+          "column_name": "ip_str",
+          "column_order": 17
+        },
+        {
+          "data_path": "action_result.data.*.cpe23",
+          "data_type": "array",
+          "column_name": "cpe23",
+          "column_order": 18
+        },
+        {
+          "data_path": "action_result.data.*.cpe",
+          "data_type": "array",
+          "column_name": "cpe",
+          "column_order": 19
+        },
+        {
+          "data_path": "action_result.data.*.product",
+          "data_type": "string",
+          "column_name": "product",
+          "column_order": 20
+        },
+        {
+          "data_path": "action_result.data.*.version",
+          "data_type": "string",
+          "column_name": "version",
+          "column_order": 21
+        },
+        {
+          "data_path": "action_result.data.*.info",
+          "data_type": "string",
+          "column_name": "info",
+          "column_order": 22
+        },
+        {
+          "data_path": "action_result.data.*.ipv6",
+          "data_type": "string",
+          "column_name": "ipv6",
+          "column_order": 23
+        },
+        {
+          "data_path": "action_result.data.*.cloud.region",
+          "data_type": "string",
+          "column_name": "cloud region",
+          "column_order": 24
+        },
+        {
+          "data_path": "action_result.data.*.cloud.service",
+          "data_type": "string",
+          "column_name": "cloud service",
+          "column_order": 25
+        },
+        {
+          "data_path": "action_result.data.*.cloud.provider",
+          "data_type": "string",
+          "column_name": "cloud provider",
+          "column_order": 26
+        },
+        {
+          "data_path": "action_result.data.*.location.city",
+          "data_type": "string",
+          "column_name": "city",
+          "column_order": 24
+        },
+        {
+          "data_path": "action_result.data.*.location.region_code",
+          "data_type": "string",
+          "column_name": "region code",
+          "column_order": 25
+        },
+        {
+          "data_path": "action_result.data.*.location.area_code",
+          "data_type": "string",
+          "column_name": "area code",
+          "column_order": 26
+        },
+        {
+          "data_path": "action_result.data.*.location.longitude",
+          "data_type": "numeric",
+          "column_name": "longitude",
+          "column_order": 27
+        },
+        {
+          "data_path": "action_result.data.*.location.latitude",
+          "data_type": "numeric",
+          "column_name": "latitude",
+          "column_order": 28
+        },
+        {
+          "data_path": "action_result.data.*.location.country_code",
+          "data_type": "string",
+          "column_name": "country code",
+          "column_order": 29
+        },
+        {
+          "data_path": "action_result.data.*.location.country_name",
+          "data_type": "string",
+          "column_name": "country name",
+          "column_order": 30
+        },
+        {
+          "data_path": "action_result.data.*._shodan.region",
+          "data_type": "string",
+          "column_name": "shodan region",
+          "column_order": 31
+        },
+        {
+          "data_path": "action_result.data.*._shodan.ptr",
+          "data_type": "string",
+          "column_name": "shodan ptr",
+          "column_order": 32
+        },
+        {
+          "data_path": "action_result.data.*._shodan.module",
+          "data_type": "string",
+          "column_name": "shodan module",
+          "column_order": 33
+        },
+        {
+          "data_path": "action_result.data.*._shodan.id",
+          "data_type": "string",
+          "column_name": "shodan id",
+          "column_order": 34
+        },
+        {
+          "data_path": "action_result.data.*._shodan.crawler",
+          "data_type": "string",
+          "column_name": "shodan crawler",
+          "column_order": 35
+        },
+        {
+          "data_path": "action_result.data.*._shodan.options.hostname",
+          "data_type": "string",
+          "column_name": "shodan hostname",
+          "column_order": 36
+        },
+        {
+          "data_path": "action_result.data.*._shodan.options.scan",
+          "data_type": "string",
+          "column_name": "shodan scan",
+          "column_order": 37
+        }
+      ],
+      "render": {
+        "type": "table"
+      },
+      "versions": "EQ(*)"
+    },
+    {
+      "action": "search parameter",
+      "identifier": "search_parameter",
+      "description": "List all search facets, filters",
+      "verbose": "This method returns a list of facets that can be used to get a breakdown of the top values for a property or search filters that can be used in the search query.",
+      "type": "generic",
+      "read_only": false,
+      "parameters": {
+        "parameter_to_search": {
+          "description": "Select parameter from dropdown",
+          "data_type": "string",
+          "required": true,
+          "primary": false,
+          "contains": [],
+          "value_list": ["facets", "filters"],
+          "default": "",
+          "order": 0,
+          "name": "parameter_to_search"
+        }
+      },
+      "output": [
+        {
+          "data_path": "action_result.parameter.parameter_to_search",
+          "data_type": "string",
+          "contains": [],
+          "column_name": "parameter_to_search",
+          "column_order": 0
+        },
+        {
+          "data_path": "action_result.status",
+          "data_type": "string",
+          "column_name": "status",
+          "column_order": 1
+        },
+        {
+          "data_path": "action_result.data",
+          "data_type": "array",
+          "column_name": "Values",
+          "column_order": 2
+        },
+        {
+          "data_path": "action_result.message",
+          "data_type": "string"
+        },
+        {
+          "data_path": "summary.total_objects",
+          "data_type": "numeric"
+        },
+        {
+          "data_path": "summary.total_objects_successful",
+          "data_type": "numeric"
+        }
+      ],
+      "render": {
+        "type": "table"
+      },
+      "versions": "EQ(*)"
+    },
+    {
+      "action": "search token",
+      "identifier": "search_token",
+      "description": "Break the search query into tokens",
+      "verbose": "This method lets you determine which filters are being used by the query string and what parameters were provided to the filters.",
+      "type": "generic",
+      "read_only": false,
+      "parameters": {
+        "query": {
+          "description": "Shodan search query. The provided string is used to search the database of banners in Shodan",
+          "data_type": "string",
+          "required": true,
+          "primary": true,
+          "contains": [],
+          "value_list": [],
+          "default": "",
+          "order": 0,
+          "name": "query"
+        }
+      },
+      "output": [
+        {
+          "data_path": "action_result.parameter.query",
+          "data_type": "string",
+          "contains": [],
+          "column_name": "query",
+          "column_order": 0
+        },
+        {
+          "data_path": "action_result.status",
+          "data_type": "string",
+          "column_name": "status",
+          "column_order": 1
+        },
+        {
+          "data_path": "action_result.data.*.string",
+          "data_type": "string",
+          "column_name": "query string",
+          "column_order": 2
+        },
+        {
+          "data_path": "action_result.data.*.filters",
+          "data_type": "array",
+          "column_name": "filters",
+          "column_order": 4
+        },
+        {
+          "data_path": "action_result.data.*.errors",
+          "data_type": "array",
+          "column_name": "errors",
+          "column_order": 5
+        },
+        {
+          "data_path": "action_result.data.*.attributes",
+          "data_type": "object",
+          "column_name": "attributes",
+          "column_order": 6
+        },
+        {
+          "data_path": "action_result.message",
+          "data_type": "string"
+        },
+        {
+          "data_path": "summary.total_objects",
+          "data_type": "numeric"
+        },
+        {
+          "data_path": "summary.total_objects_successful",
+          "data_type": "numeric"
+        }
+      ],
+      "render": {
+        "type": "table"
+      },
+      "versions": "EQ(*)"
+    },
+    {
+      "action": "scan ports",
+      "identifier": "scan_ports",
+      "description": "List all ports that Shodan is crawling on the Internet.",
+      "verbose": "This method returns a list of port numbers that the crawlers are looking for.",
+      "type": "generic",
+      "read_only": false,
+      "parameters": {},
+      "output": [
+        {
+          "data_path": "action_result.status",
+          "data_type": "string",
+          "column_name": "status",
+          "column_order": 0
+        },
+        {
+          "data_path": "action_result.data",
+          "data_type": "array",
+          "column_name": "Ports",
+          "column_order": 1
+        },
+        {
+          "data_path": "action_result.message",
+          "data_type": "string"
+        },
+        {
+          "data_path": "summary.total_objects",
+          "data_type": "numeric"
+        },
+        {
+          "data_path": "summary.total_objects_successful",
+          "data_type": "numeric"
+        }
+      ],
+      "render": {
+        "type": "table"
+      },
+      "versions": "EQ(*)"
+    },
+    {
+      "action": "scan protocols",
+      "identifier": "scan_protocols",
+      "description": "List all protocols that can be used when performing on-demand Internet scans via Shodan.",
+      "verbose": "This method returns an object containing all the protocols that can be used when launching an Internet scan.",
+      "type": "generic",
+      "read_only": false,
+      "parameters": {},
+      "output": [
+        {
+          "data_path": "action_result.status",
+          "data_type": "string",
+          "column_name": "status",
+          "column_order": 0
+        },
+        {
+          "data_path": "action_result.data.*.protocol_name",
+          "data_type": "string",
+          "column_name": "name",
+          "column_order": 1
+        },
+        {
+          "data_path": "action_result.data.*.protocol_desc",
+          "data_type": "string",
+          "column_name": "description",
+          "column_order": 2
+        },
+        {
+          "data_path": "action_result.message",
+          "data_type": "string"
+        },
+        {
+          "data_path": "summary.total_objects",
+          "data_type": "numeric"
+        },
+        {
+          "data_path": "summary.total_objects_successful",
+          "data_type": "numeric"
+        }
+      ],
+      "render": {
+        "type": "table"
+      },
+      "versions": "EQ(*)"
+    },
+    {
+      "action": "scan ip only",
+      "identifier": "ip_only_scan",
+      "description": "Request Shodan to crawl an IP/ netblock",
+      "verbose": "Use this method to request Shodan to crawl a network.\n\nRequirements\nThis method uses API scan credits: 1 IP consumes 1 scan credit. You must have a paid API plan (either one-time payment or subscription) in order to use this method.",
+      "type": "generic",
+      "read_only": false,
+      "parameters": {
+        "ip_list": {
+          "description": "A comma-separated list of IPs or netblocks (in CIDR notation) that should get crawled. ip_1,ip_2,...,ip_n",
+          "data_type": "string",
+          "required": true,
+          "primary": true,
+          "contains": [],
+          "value_list": [],
+          "default": "",
+          "order": 0,
+          "name": "ip_list",
+          "id": 1,
+          "param_name": "ip_list"
+        },
+        "force": {
+          "description": "Whether or not to force Shodan to re-scan the provided IPs. Only available to enterprise users.",
+          "data_type": "boolean",
+          "required": false,
+          "primary": false,
+          "contains": [],
+          "default": false,
+          "order": 1,
+          "name": "force",
+          "id": 2,
+          "param_name": "force",
+          "descriptionError": false
+        }
+      },
+      "output": [
+        {
+          "data_path": "action_result.parameter.ip_list",
+          "data_type": "string",
+          "contains": [],
+          "column_name": "ip_list",
+          "column_order": 0
+        },
+        {
+          "data_path": "action_result.parameter.force",
+          "data_type": "boolean",
+          "contains": [],
+          "column_name": "force",
+          "column_order": 1
+        },
+        {
+          "data_path": "action_result.status",
+          "data_type": "string",
+          "column_name": "status",
+          "column_order": 2
+        },
+        {
+          "data_path": "action_result.data.*.id",
+          "data_type": "string",
+          "column_name": "scan id",
+          "column_order": 3
+        },
+        {
+          "data_path": "action_result.data.*.count",
+          "data_type": "string",
+          "column_name": "ip count",
+          "column_order": 4
+        },
+        {
+          "data_path": "action_result.data.*.credits_left",
+          "data_type": "string",
+          "column_name": "credits left",
+          "column_order": 5
+        },
+        {
+          "data_path": "action_result.message",
+          "data_type": "string"
+        },
+        {
+          "data_path": "summary.total_objects",
+          "data_type": "numeric"
+        },
+        {
+          "data_path": "summary.total_objects_successful",
+          "data_type": "numeric"
+        }
+      ],
+      "render": {
+        "type": "table"
+      },
+      "versions": "EQ(*)"
+    },
+    {
+      "action": "scan ip with services",
+      "identifier": "scan_ip_with_services",
+      "description": "A pipe-separated list of IPs or netblocks (in CIDR notation) that should get crawled with services.",
+      "verbose": "By default, the Shodan crawlers will check all the standard ports it normally crawls. However, you can also provide the services, a specific list of ports/ protocols you'd like the crawlers to use. A service is defined as a [port, protocol] in this action.\n\nThis action requires a pipe-separated list of IP addresses along with their services. \nProvide input to this action in the following format,\n\nip_1:[ip_1_service_1],[ip_1_service_2] | ip_2:[ip_2_service_1],[ip_2_service_2] | ...\n\nexample:\n1.1.1.1: [[53,dns-udp], [443, https]] | 8.8.8.8: [[53, dns-tcp]] | 12.8.8.8: [[53, dns-tcp]]",
+      "type": "generic",
+      "read_only": false,
+      "parameters": {
+        "ip_with_services": {
+          "description": "A pipe-separated list of IP addresses along with their services. ip_1:[ip_1_service_1],[ip_1_service_2] | ip_2:[ip_2_service_1],[ip_2_service_2] | ...",
+          "data_type": "string",
+          "required": true,
+          "primary": true,
+          "contains": [],
+          "value_list": [],
+          "default": "",
+          "order": 0,
+          "name": "ip_with_services",
+          "id": 1,
+          "param_name": "ip_with_services"
+        },
+        "force": {
+          "description": "Whether or not to force Shodan to re-scan the provided IPs. Only available to enterprise users.",
+          "data_type": "boolean",
+          "required": false,
+          "primary": false,
+          "contains": [],
+          "default": false,
+          "order": 1,
+          "name": "force",
+          "id": 2,
+          "param_name": "force"
+        }
+      },
+      "output": [
+        {
+          "data_path": "action_result.parameter.ip_with_services",
+          "data_type": "string",
+          "contains": [],
+          "column_name": "ip_with_services",
+          "column_order": 0
+        },
+        {
+          "data_path": "action_result.parameter.force",
+          "data_type": "boolean",
+          "contains": [],
+          "column_name": "force",
+          "column_order": 1
+        },
+        {
+          "data_path": "action_result.status",
+          "data_type": "string",
+          "column_name": "status",
+          "column_order": 2
+        },
+        {
+          "data_path": "action_result.message",
+          "data_type": "string"
+        },
+        {
+          "data_path": "summary.total_objects",
+          "data_type": "numeric"
+        },
+        {
+          "data_path": "summary.total_objects_successful",
+          "data_type": "numeric"
+        }
+      ],
+      "render": {
+        "type": "table"
+      },
+      "versions": "EQ(*)"
+    },
+    {
+      "action": "scan internet",
+      "identifier": "scan_internet",
+      "description": "Crawl the Internet for a specific port and protocol using Shodan",
+      "verbose": "Use this method to request Shodan to crawl the Internet for a specific port.\n\nRequirements\nThis method is restricted to security researchers and companies with a Shodan Enterprise Data license. To apply for access to this method as a researcher, please email jmath@shodan.io with information about your project. Access is restricted to prevent abuse.\n\nParameters\nport: [Integer] The port that Shodan should crawl the Internet for.\nprotocol: [String] The name of the protocol that should be used to interrogate the port. See /shodan/protocols for a list of supported protocols.",
+      "type": "generic",
+      "read_only": false,
+      "parameters": {
+        "port": {
+          "description": "The port that Shodan should crawl the Internet for.",
+          "data_type": "string",
+          "required": true,
+          "primary": false,
+          "contains": [],
+          "value_list": [],
+          "default": "",
+          "order": 0,
+          "name": "port",
+          "id": 1,
+          "param_name": "port"
+        },
+        "protocol": {
+          "description": "The name of the protocol that should be used to interrogate the port. See /shodan/protocols for a list of supported protocols.",
+          "data_type": "string",
+          "required": true,
+          "primary": false,
+          "contains": [],
+          "value_list": [],
+          "default": "",
+          "order": 1,
+          "name": "protocol",
+          "id": 2,
+          "param_name": "protocol"
+        }
+      },
+      "output": [
+        {
+          "data_path": "action_result.parameter.port",
+          "data_type": "string",
+          "contains": [],
+          "column_name": "port",
+          "column_order": 0
+        },
+        {
+          "data_path": "action_result.parameter.protocol",
+          "data_type": "string",
+          "contains": [],
+          "column_name": "protocol",
+          "column_order": 1
+        },
+        {
+          "data_path": "action_result.status",
+          "data_type": "string",
+          "column_name": "status",
+          "column_order": 2
+        },
+        {
+          "data_path": "action_result.data.*.id",
+          "data_type": "string",
+          "column_name": "scan id",
+          "column_order": 3
+        },
+        {
+          "data_path": "action_result.message",
+          "data_type": "string"
+        },
+        {
+          "data_path": "summary.total_objects",
+          "data_type": "numeric"
+        },
+        {
+          "data_path": "summary.total_objects_successful",
+          "data_type": "numeric"
+        }
+      ],
+      "render": {
+        "type": "table"
+      },
+      "versions": "EQ(*)"
+    },
+    {
+      "action": "scan status bulk",
+      "identifier": "scan_status_bulk",
+      "description": "Get list of all the created scans",
+      "verbose": "Returns a listing of all the on-demand scans that are currently active on the account.",
+      "type": "generic",
+      "read_only": true,
+      "parameters": {
+        "page_number": {
+          "description": "From page number. Each page contains 100 scan results in it.",
+          "data_type": "string",
+          "required": false,
+          "primary": false,
+          "contains": [],
+          "value_list": [],
+          "default": "",
+          "order": 0,
+          "name": "page_number",
+          "id": 1,
+          "param_name": "page_number"
+        }
+      },
+      "output": [
+        {
+          "data_path": "action_result.parameter.page_number",
+          "data_type": "string",
+          "contains": [],
+          "column_name": "page_number",
+          "column_order": 0
+        },
+        {
+          "data_path": "action_result.status",
+          "data_type": "string",
+          "column_name": "status",
+          "column_order": 1
+        },
+        {
+          "data_path": "action_result.data.*.matches.*.status",
+          "data_type": "string",
+          "column_name": "scan status",
+          "example_values": ["DONE", "QUEUE"],
+          "column_order": 2
+        },
+        {
+          "data_path": "action_result.data.*.matches.*.created",
+          "data_type": "string",
+          "column_name": "created date",
+          "example_values": ["2023-05-02T02:44:00.714000"],
+          "column_order": 3
+        },
+        {
+          "data_path": "action_result.data.*.matches.*.status_check",
+          "data_type": "string",
+          "column_name": "status check date",
+          "example_values": ["2023-05-02T02:44:00.714000"],
+          "column_order": 4
+        },
+        {
+          "data_path": "action_result.data.*.matches.*.credits_left",
+          "data_type": "numeric",
+          "column_name": "credits left",
+          "column_order": 5
+        },
+        {
+          "data_path": "action_result.data.*.matches.*.id",
+          "data_type": "string",
+          "column_name": "Scan ID",
+          "column_order": 6
+        },
+        {
+          "data_path": "action_result.data.*.matches.*.size",
+          "data_type": "numeric",
+          "column_name": "size",
+          "column_order": 7
+        },
+        {
+          "data_path": "action_result.message",
+          "data_type": "string"
+        },
+        {
+          "data_path": "summary.total_objects",
+          "data_type": "numeric"
+        },
+        {
+          "data_path": "summary.total_objects_successful",
+          "data_type": "numeric"
+        }
+      ],
+      "render": {
+        "type": "table"
+      },
+      "versions": "EQ(*)"
+    },
+    {
+      "action": "shodan scan individual",
+      "identifier": "shodan_scan_individual",
+      "description": "Get the status of a scan request",
+      "verbose": "Check the progress of a previously submitted scan request. Possible values for the status are:\nSUBMITTING,\nQUEUE,\nPROCESSING,\nDONE.",
+      "type": "generic",
+      "read_only": true,
+      "parameters": {
+        "id": {
+          "description": "The unique scan ID that was returned by /shodan/scan.",
+          "data_type": "string",
+          "required": true,
+          "primary": true,
+          "contains": [],
+          "value_list": [],
+          "default": "",
+          "order": 0,
+          "name": "id",
+          "id": 1,
+          "param_name": "id"
+        }
+      },
+      "output": [
+        {
+          "data_path": "action_result.parameter.id",
+          "data_type": "string",
+          "contains": [],
+          "column_name": "id",
+          "column_order": 0
+        },
+        {
+          "data_path": "action_result.status",
+          "data_type": "string",
+          "column_name": "status",
+          "column_order": 1
+        },
+        {
+          "data_path": "action_result.data.*.status",
+          "data_type": "string",
+          "column_name": "status",
+          "column_order": 2
+        },
+        {
+          "data_path": "action_result.data.*.created",
+          "data_type": "string",
+          "column_name": "created date",
+          "example_values": ["2023-05-02T02:44:00.714000"],
+          "column_order": 3
+        },
+        {
+          "data_path": "action_result.data.*.count",
+          "data_type": "string",
+          "column_name": "IP Count",
+          "column_order": 4
+        },
+        {
+          "data_path": "action_result.message",
+          "data_type": "string"
+        }
+      ],
+      "render": {
+        "type": "table"
+      },
+      "versions": "EQ(*)"
+    }
+  ],
+  "pip3_dependencies": {
+    "pypi": [
+      {
+        "module": "shodan"
+      },
+      {
+        "module": "ipaddress"
+      }
     ],
-    "pip3_dependencies": {
-        "pypi": [
-            {
-                "module": "shodan"
-            },
-            {
-                "module": "ipaddress"
-            }
-        ]
-    },
-    "custom_made": true,
-    "copied_from_id": 184,
-    "copied_from_version": "9.7.0",
-    "directory": "shodan_a106f266-1a20-4389-aefb-a122254ba7ff",
-    "version": 1,
-    "appname": "-",
-    "executable": "spawn3",
-    "disabled": false
+    "wheel": [
+      {
+        "module": "certifi",
+        "input_file": "wheels/certifi-2023.5.7-py3-none-any.whl"
+      },
+      {
+        "module": "chardet",
+        "input_file": "wheels/chardet-5.1.0-py3-none-any.whl"
+      },
+      {
+        "module": "idna",
+        "input_file": "wheels/idna-3.4-py3-none-any.whl"
+      },
+      {
+        "module": "requests",
+        "input_file": "wheels/requests-2.30.0-py3-none-any.whl"
+      },
+      {
+        "module": "urllib3",
+        "input_file": "wheels/urllib3-1.26.15-py2.py3-none-any.whl"
+      }
+    ]
+  },
+  "custom_made": true,
+  "copied_from_id": 184,
+  "copied_from_version": "9.7.0",
+  "directory": "shodan_a106f266-1a20-4389-aefb-a122254ba7ff",
+  "version": 1,
+  "appname": "-",
+  "executable": "spawn3",
+  "disabled": false
 }

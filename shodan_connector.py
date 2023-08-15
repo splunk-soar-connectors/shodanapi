@@ -7,22 +7,22 @@
 # Python 3 Compatibility imports
 from __future__ import print_function, unicode_literals
 
-# Phantom App imports
-import phantom.app as phantom
-from phantom.base_connector import BaseConnector
-from phantom.action_result import ActionResult
-
-# Usage of the consts file is recommended
-# from shodan_consts import *
-import requests
-import json
-from bs4 import BeautifulSoup
 import copy
+import ipaddress
+import json
 import re
 
+# Phantom App imports
+import phantom.app as phantom
+# Usage of the consts file is recommended
+import requests
+from bs4 import BeautifulSoup
+from phantom.action_result import ActionResult
+from phantom.base_connector import BaseConnector
 # External dependencies
-from shodan import Shodan, APIError
-import ipaddress
+from shodan import APIError, Shodan
+
+from shodan_consts import *
 
 
 class RetVal(tuple):
@@ -535,7 +535,7 @@ class ShodanConnector(BaseConnector):
         action_result.add_data(response)
         msg = "Fetched status for scan {0}. Scan status: {1}".format(
             id, response['status'])
-        
+
         return action_result.set_status(phantom.APP_SUCCESS, msg)
 
     def handle_action(self, param):
@@ -604,8 +604,8 @@ class ShodanConnector(BaseConnector):
         optional_config_name = config.get('optional_config_name')
         """
 
-        self._base_url = "https://api.shodan.io"
-        self._api_key = config.get('API Key')
+        self._base_url = SHODAN_BASE_URL
+        self._api_key = config.get(SHODAN_API_KEY)
         self._api = Shodan(self._api_key)
 
         return phantom.APP_SUCCESS
