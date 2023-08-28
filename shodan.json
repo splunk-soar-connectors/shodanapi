@@ -933,7 +933,7 @@
             "versions": "EQ(*)"
         },
         {
-            "action": "scan ip with services",
+            "action": "scan ip services",
             "identifier": "scan_ip_with_services",
             "description": "A pipe-separated list of IPs or netblocks (in CIDR notation) that should get crawled with services.",
             "verbose": "By default, the Shodan crawlers will check all the standard ports it normally crawls. However, you can also provide the services, a specific list of ports/ protocols you'd like the crawlers to use. A service is defined as a [port, protocol] in this action.\n\nThis action requires a pipe-separated list of IP addresses along with their services. \nProvide input to this action in the following format,\n\nip_1:[ip_1_service_1],[ip_1_service_2] | ip_2:[ip_2_service_1],[ip_2_service_2] | ...\n\nexample:\n1.1.1.1: [[53,dns-udp], [443, https]] | 8.8.8.8: [[53, dns-tcp]] | 12.8.8.8: [[53, dns-tcp]]",
@@ -962,14 +962,12 @@
                 {
                     "data_path": "action_result.parameter.force",
                     "data_type": "boolean",
-                    "contains": [],
                     "column_name": "force",
                     "column_order": 1
                 },
                 {
                     "data_path": "action_result.parameter.ip_with_services",
                     "data_type": "string",
-                    "contains": [],
                     "column_name": "ip_with_services",
                     "column_order": 0
                 },
