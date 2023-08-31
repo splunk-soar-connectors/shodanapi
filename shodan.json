@@ -20,7 +20,7 @@
     "utctime_updated": "2023-05-02T09:35:19.351926Z",
     "package_name": "phantom_shodan",
     "main_module": "shodan_connector.py",
-    "min_phantom_version": "6.0.0.114895",
+    "min_phantom_version": "6.0.2",
     "app_wizard_version": "1.0.0",
     "configuration": {
         "api_key": {
@@ -324,7 +324,7 @@
         {
             "action": "search shodan",
             "identifier": "search_shodan",
-            "description": "Search Shodan using the same query syntax as the website and use facets to get summary information for different properties.",
+            "description": "Search Shodan using the same query syntax as the website and use facets to get summary information for different properties",
             "verbose": "Requirements\nThis method may use API query credits depending on usage. If any of the following criteria are met, your account will be deducted 1 query credit:\n\n1. The search query contains a filter.\n2. Accessing results past the 1st page using the \"page\". For every 100 results past the 1st page 1 query credit is deducted.",
             "type": "investigate",
             "read_only": true,
@@ -934,7 +934,7 @@
             "action": "scan ip services",
             "identifier": "scan_ip_with_services",
             "description": "A pipe-separated list of IPs or netblocks (in CIDR notation) that should get crawled with services",
-            "verbose": "By default, the Shodan crawlers will check all the standard ports it normally crawls. However, you can also provide the services, a specific list of ports/ protocols you'd like the crawlers to use. A service is defined as a [port, protocol] in this action.\n\nThis action requires a pipe-separated list of IP addresses along with their services. \nProvide input to this action in the following format,\n\nip_1:[ip_1_service_1],[ip_1_service_2] | ip_2:[ip_2_service_1],[ip_2_service_2] | ...\n\nexample:\n1.1.1.1: [[53,dns-udp], [443, https]] | 8.8.8.8: [[53, dns-tcp]] | 12.8.8.8: [[53, dns-tcp]]",
+            "verbose": "By default, the Shodan crawlers will check all the standard ports it normally crawls. However, you can also provide the services, a specific list of ports/ protocols you'd like the crawlers to use. A service is defined as a [port, protocol] in this action.\n\nThis action requires a pipe-separated list of IP addresses along with their services. \nProvide input to this action in the following format,\n\nip_1:[ip_1_service_1],[ip_1_service_2] | ip_2:[ip_2_service_1],[ip_2_service_2] | ...\n\nexample:\n1.1.1.1: [[53,dns-udp], [443, https]] | 8.8.8.8: [[53, dns-tcp]] | 12.8.8.8: [[53, dns-tcp]].",
             "type": "investigate",
             "read_only": true,
             "parameters": {
