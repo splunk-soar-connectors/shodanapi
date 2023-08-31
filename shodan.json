@@ -1225,38 +1225,63 @@
         }
     ],
     "pip3_dependencies": {
-        "pypi": [
-            {
-                "module": "shodan"
-            },
-            {
-                "module": "ipaddress"
-            }
-        ],
         "wheel": [
             {
-                "module": "certifi",
-                "input_file": "wheels/certifi-2023.5.7-py3-none-any.whl"
+                "module": "XlsxWriter",
+                "input_file": "wheels/py3/XlsxWriter-3.1.2-py3-none-any.whl"
             },
             {
-                "module": "chardet",
-                "input_file": "wheels/chardet-5.1.0-py3-none-any.whl"
+                "module": "click",
+                "input_file": "wheels/py3/click-8.0.4-py3-none-any.whl"
             },
             {
-                "module": "idna",
-                "input_file": "wheels/idna-3.4-py3-none-any.whl"
+                "module": "click_plugins",
+                "input_file": "wheels/shared/click_plugins-1.1.1-py2.py3-none-any.whl"
             },
             {
-                "module": "requests",
-                "input_file": "wheels/requests-2.30.0-py3-none-any.whl"
+                "module": "colorama",
+                "input_file": "wheels/shared/colorama-0.4.5-py2.py3-none-any.whl"
             },
             {
-                "module": "urllib3",
-                "input_file": "wheels/urllib3-1.26.15-py2.py3-none-any.whl"
+                "module": "importlib_metadata",
+                "input_file": "wheels/py3/importlib_metadata-4.8.3-py3-none-any.whl"
+            },
+            {
+                "module": "shodan",
+                "input_file": "wheels/py3/shodan-1.28.0-py3-none-any.whl"
+            },
+            {
+                "module": "typing_extensions",
+                "input_file": "wheels/py3/typing_extensions-4.1.1-py3-none-any.whl"
+            },
+            {
+                "module": "zipp",
+                "input_file": "wheels/py3/zipp-3.6.0-py3-none-any.whl"
             }
         ]
     },
     "pip39_dependencies": {
-        "wheel": []
+        "wheel": [
+            {
+                "module": "XlsxWriter",
+                "input_file": "wheels/py3/XlsxWriter-3.1.2-py3-none-any.whl"
+            },
+            {
+                "module": "click",
+                "input_file": "wheels/py3/click-8.1.7-py3-none-any.whl"
+            },
+            {
+                "module": "click_plugins",
+                "input_file": "wheels/shared/click_plugins-1.1.1-py2.py3-none-any.whl"
+            },
+            {
+                "module": "colorama",
+                "input_file": "wheels/shared/colorama-0.4.6-py2.py3-none-any.whl"
+            },
+            {
+                "module": "shodan",
+                "input_file": "wheels/py3/shodan-1.28.0-py3-none-any.whl"
+            }
+        ]
     }
 }
