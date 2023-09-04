@@ -1,7 +1,7 @@
 {
     "appid": "a106f266-1a20-4389-aefb-a122254ba7ff",
     "name": "Shodan",
-    "description": "This app integrates with the Shodan Search engine. It supports search and on-demand scanning APIs.",
+    "description": "This app integrates with the Shodan Search engine. It supports search and on-demand scanning APIs",
     "type": "network security",
     "product_vendor": "Shodan",
     "logo": "shodan.svg",
@@ -27,9 +27,7 @@
             "description": "Shodan API Key",
             "data_type": "password",
             "required": true,
-            "default": "",
-            "order": 0,
-            "id": 0
+            "order": 0
         }
     },
     "actions": [
@@ -76,13 +74,13 @@
                 {
                     "data_path": "action_result.status",
                     "data_type": "string",
-                    "column_name": "status",
+                    "column_name": "Status",
                     "column_order": 3
                 },
                 {
                     "data_path": "action_result.parameter.history",
                     "data_type": "boolean",
-                    "column_name": "history",
+                    "column_name": "History",
                     "column_order": 1
                 },
                 {
@@ -91,65 +89,65 @@
                     "contains": [
                         "ip"
                     ],
-                    "column_name": "ip",
+                    "column_name": "IP",
                     "column_order": 0
                 },
                 {
                     "data_path": "action_result.parameter.minify",
                     "data_type": "boolean",
-                    "column_name": "minify",
+                    "column_name": "Minify",
                     "column_order": 2
                 },
                 {
                     "data_path": "action_result.data.*.area_code",
                     "data_type": "string",
-                    "column_name": "area code",
+                    "column_name": "Area Code",
                     "column_order": 9
                 },
                 {
                     "data_path": "action_result.data.*.asn",
                     "data_type": "string",
-                    "column_name": "asn",
+                    "column_name": "Asn",
                     "column_order": 20
                 },
                 {
                     "data_path": "action_result.data.*.city",
                     "data_type": "string",
-                    "column_name": "city",
+                    "column_name": "City",
                     "column_order": 4
                 },
                 {
                     "data_path": "action_result.data.*.country_code",
                     "data_type": "string",
-                    "column_name": "country code",
+                    "column_name": "Country Code",
                     "column_order": 15
                 },
                 {
                     "data_path": "action_result.data.*.country_name",
                     "data_type": "string",
-                    "column_name": "country name",
+                    "column_name": "Country Name",
                     "column_order": 16
                 },
                 {
                     "data_path": "action_result.data.*.data",
-                    "data_type": "object"
+                    "data_type": "Object"
                 },
                 {
                     "data_path": "action_result.data.*.domains",
                     "data_type": "string",
-                    "column_name": "domains",
+                    "column_name": "Domains",
                     "column_order": 17
                 },
                 {
                     "data_path": "action_result.data.*.hostnames",
                     "data_type": "string",
-                    "column_name": "hostnames",
+                    "column_name": "Hostnames",
                     "column_order": 14
                 },
                 {
                     "data_path": "action_result.data.*.ip",
                     "data_type": "numeric",
-                    "column_name": "ip",
+                    "column_name": "IP",
                     "column_order": 7
                 },
                 {
@@ -158,13 +156,13 @@
                     "contains": [
                         "ip"
                     ],
-                    "column_name": "ip string",
+                    "column_name": "IP String",
                     "column_order": 21
                 },
                 {
                     "data_path": "action_result.data.*.isp",
                     "data_type": "string",
-                    "column_name": "isp",
+                    "column_name": "ISP",
                     "column_order": 8
                 },
                 {
@@ -173,49 +171,49 @@
                     "example_values": [
                         "1997-09-15T04:00:10.741612"
                     ],
-                    "column_name": "last update",
+                    "column_name": "Last Update",
                     "column_order": 12
                 },
                 {
                     "data_path": "action_result.data.*.latitude",
                     "data_type": "numeric",
-                    "column_name": "latitude",
+                    "column_name": "Latitude",
                     "column_order": 11
                 },
                 {
                     "data_path": "action_result.data.*.longitude",
                     "data_type": "numeric",
-                    "column_name": "longitude",
+                    "column_name": "Longitude",
                     "column_order": 10
                 },
                 {
                     "data_path": "action_result.data.*.org",
                     "data_type": "string",
-                    "column_name": "org",
+                    "column_name": "Org",
                     "column_order": 19
                 },
                 {
                     "data_path": "action_result.data.*.os",
                     "data_type": "string",
-                    "column_name": "os",
+                    "column_name": "OS",
                     "column_order": 6
                 },
                 {
                     "data_path": "action_result.data.*.ports",
                     "data_type": "numeric",
-                    "column_name": "ports",
+                    "column_name": "Ports",
                     "column_order": 13
                 },
                 {
                     "data_path": "action_result.data.*.region_code",
                     "data_type": "string",
-                    "column_name": "region code",
+                    "column_name": "Region Code",
                     "column_order": 5
                 },
                 {
                     "data_path": "action_result.data.*.tags",
                     "data_type": "string",
-                    "column_name": "tags",
+                    "column_name": "Tags",
                     "column_order": 18
                 },
                 {
@@ -264,43 +262,43 @@
                 {
                     "data_path": "action_result.status",
                     "data_type": "string",
-                    "column_name": "status",
+                    "column_name": "Status",
                     "column_order": 2
                 },
                 {
                     "data_path": "action_result.parameter.facets",
                     "data_type": "string",
-                    "column_name": "facets (all)",
+                    "column_name": "Facets (all)",
                     "column_order": 1
                 },
                 {
                     "data_path": "action_result.parameter.query",
                     "data_type": "string",
-                    "column_name": "query",
+                    "column_name": "Query",
                     "column_order": 0
                 },
                 {
                     "data_path": "action_result.data.*.facet",
                     "data_type": "string",
-                    "column_name": "facet",
+                    "column_name": "Facet",
                     "column_order": 3
                 },
                 {
                     "data_path": "action_result.data.*.facet_count",
                     "data_type": "numeric",
-                    "column_name": "facet count",
+                    "column_name": "Facet Count",
                     "column_order": 5
                 },
                 {
                     "data_path": "action_result.data.*.facet_value",
                     "data_type": "string",
-                    "column_name": "facet value",
+                    "column_name": "Facet Value",
                     "column_order": 4
                 },
                 {
                     "data_path": "action_result.summary.total",
                     "data_type": "numeric",
-                    "column_name": "total",
+                    "column_name": "Total",
                     "column_order": 6
                 },
                 {
@@ -357,235 +355,235 @@
                 {
                     "data_path": "action_result.status",
                     "data_type": "string",
-                    "column_name": "status",
+                    "column_name": "Status",
                     "column_order": 4
                 },
                 {
                     "data_path": "action_result.parameter.facets",
                     "data_type": "string",
-                    "column_name": "facets",
+                    "column_name": "Facets",
                     "column_order": 1
                 },
                 {
                     "data_path": "action_result.parameter.minify",
                     "data_type": "boolean",
-                    "column_name": "minify",
+                    "column_name": "Minify",
                     "column_order": 3
                 },
                 {
                     "data_path": "action_result.parameter.page",
                     "data_type": "numeric",
-                    "column_name": "page",
+                    "column_name": "Page",
                     "column_order": 2
                 },
                 {
                     "data_path": "action_result.parameter.query",
                     "data_type": "string",
-                    "column_name": "query",
+                    "column_name": "Query",
                     "column_order": 0
                 },
                 {
                     "data_path": "action_result.data.*._shodan.crawler",
                     "data_type": "string",
-                    "column_name": "shodan crawler",
+                    "column_name": "Shodan Crawler",
                     "column_order": 38
                 },
                 {
                     "data_path": "action_result.data.*._shodan.id",
                     "data_type": "string",
-                    "column_name": "shodan id",
+                    "column_name": "Shodan ID",
                     "column_order": 37
                 },
                 {
                     "data_path": "action_result.data.*._shodan.module",
                     "data_type": "string",
-                    "column_name": "shodan module",
+                    "column_name": "Shodan Module",
                     "column_order": 36
                 },
                 {
                     "data_path": "action_result.data.*._shodan.options.hostname",
                     "data_type": "string",
-                    "column_name": "shodan hostname",
+                    "column_name": "Shodan Hostname",
                     "column_order": 39
                 },
                 {
                     "data_path": "action_result.data.*._shodan.options.scan",
                     "data_type": "string",
-                    "column_name": "shodan scan",
+                    "column_name": "Shodan Scan",
                     "column_order": 40
                 },
                 {
                     "data_path": "action_result.data.*._shodan.ptr",
                     "data_type": "string",
-                    "column_name": "shodan ptr",
+                    "column_name": "Shodan Ptr",
                     "column_order": 35
                 },
                 {
                     "data_path": "action_result.data.*._shodan.region",
                     "data_type": "string",
-                    "column_name": "shodan region",
+                    "column_name": "Shodan Region",
                     "column_order": 34
                 },
                 {
                     "data_path": "action_result.data.*.asn",
                     "data_type": "string",
-                    "column_name": "asn",
+                    "column_name": "Asn",
                     "column_order": 9
                 },
                 {
                     "data_path": "action_result.data.*.cloud.provider",
                     "data_type": "string",
-                    "column_name": "cloud provider",
+                    "column_name": "Cloud Provider",
                     "column_order": 28
                 },
                 {
                     "data_path": "action_result.data.*.cloud.region",
                     "data_type": "string",
-                    "column_name": "cloud region",
+                    "column_name": "Cloud Region",
                     "column_order": 24
                 },
                 {
                     "data_path": "action_result.data.*.cloud.service",
                     "data_type": "string",
-                    "column_name": "cloud service",
+                    "column_name": "Cloud Service",
                     "column_order": 26
                 },
                 {
                     "data_path": "action_result.data.*.cpe",
                     "data_type": "array",
-                    "column_name": "cpe",
+                    "column_name": "Cpe",
                     "column_order": 19
                 },
                 {
                     "data_path": "action_result.data.*.cpe23",
                     "data_type": "array",
-                    "column_name": "cpe23",
+                    "column_name": "Cpe23",
                     "column_order": 18
                 },
                 {
                     "data_path": "action_result.data.*.domains",
                     "data_type": "array",
-                    "column_name": "domains",
+                    "column_name": "Domains",
                     "column_order": 15
                 },
                 {
                     "data_path": "action_result.data.*.hash",
                     "data_type": "numeric",
-                    "column_name": "hash",
+                    "column_name": "Hash",
                     "column_order": 8
                 },
                 {
                     "data_path": "action_result.data.*.hostnames",
                     "data_type": "array",
-                    "column_name": "hostnames",
+                    "column_name": "Hostnames",
                     "column_order": 14
                 },
                 {
                     "data_path": "action_result.data.*.info",
                     "data_type": "string",
-                    "column_name": "info",
+                    "column_name": "Info",
                     "column_order": 22
                 },
                 {
                     "data_path": "action_result.data.*.ip",
                     "data_type": "numeric",
-                    "column_name": "ip",
+                    "column_name": "IP",
                     "column_order": 5
                 },
                 {
                     "data_path": "action_result.data.*.ip_str",
                     "data_type": "string",
-                    "column_name": "ip_str",
+                    "column_name": "IP_str",
                     "column_order": 17
                 },
                 {
                     "data_path": "action_result.data.*.ipv6",
                     "data_type": "string",
-                    "column_name": "ipv6",
+                    "column_name": "IPv6",
                     "column_order": 23
                 },
                 {
                     "data_path": "action_result.data.*.isp",
                     "data_type": "string",
-                    "column_name": "isp",
+                    "column_name": "ISP",
                     "column_order": 13
                 },
                 {
                     "data_path": "action_result.data.*.location.area_code",
                     "data_type": "string",
-                    "column_name": "area code",
+                    "column_name": "Area Code",
                     "column_order": 29
                 },
                 {
                     "data_path": "action_result.data.*.location.city",
                     "data_type": "string",
-                    "column_name": "city",
+                    "column_name": "City",
                     "column_order": 25
                 },
                 {
                     "data_path": "action_result.data.*.location.country_code",
                     "data_type": "string",
-                    "column_name": "country code",
+                    "column_name": "Country Code",
                     "column_order": 32
                 },
                 {
                     "data_path": "action_result.data.*.location.country_name",
                     "data_type": "string",
-                    "column_name": "country name",
+                    "column_name": "Country Name",
                     "column_order": 33
                 },
                 {
                     "data_path": "action_result.data.*.location.latitude",
                     "data_type": "numeric",
-                    "column_name": "latitude",
+                    "column_name": "Latitude",
                     "column_order": 31
                 },
                 {
                     "data_path": "action_result.data.*.location.longitude",
                     "data_type": "numeric",
-                    "column_name": "longitude",
+                    "column_name": "Longitude",
                     "column_order": 30
                 },
                 {
                     "data_path": "action_result.data.*.location.region_code",
                     "data_type": "string",
-                    "column_name": "region code",
+                    "column_name": "Region Code",
                     "column_order": 27
                 },
                 {
                     "data_path": "action_result.data.*.org",
                     "data_type": "string",
-                    "column_name": "org",
+                    "column_name": "ORG",
                     "column_order": 16
                 },
                 {
                     "data_path": "action_result.data.*.os",
                     "data_type": "string",
-                    "column_name": "os",
+                    "column_name": "OS",
                     "column_order": 10
                 },
                 {
                     "data_path": "action_result.data.*.port",
                     "data_type": "numeric",
-                    "column_name": "port",
+                    "column_name": "Port",
                     "column_order": 6
                 },
                 {
                     "data_path": "action_result.data.*.product",
                     "data_type": "string",
-                    "column_name": "product",
+                    "column_name": "Product",
                     "column_order": 20
                 },
                 {
                     "data_path": "action_result.data.*.tags",
                     "data_type": "array",
-                    "column_name": "tags",
+                    "column_name": "Tags",
                     "column_order": 11
                 },
                 {
                     "data_path": "action_result.data.*.timestamp",
                     "data_type": "string",
-                    "column_name": "timestamp",
+                    "column_name": "Timestamp",
                     "column_order": 12,
                     "example_values": [
                         "1997-09-15T04:00:10.741612"
@@ -594,13 +592,13 @@
                 {
                     "data_path": "action_result.data.*.transport",
                     "data_type": "string",
-                    "column_name": "transport",
+                    "column_name": "Transport",
                     "column_order": 7
                 },
                 {
                     "data_path": "action_result.data.*.version",
                     "data_type": "string",
-                    "column_name": "version",
+                    "column_name": "Version",
                     "column_order": 21
                 },
                 {
@@ -648,13 +646,13 @@
                 {
                     "data_path": "action_result.status",
                     "data_type": "string",
-                    "column_name": "status",
+                    "column_name": "Status",
                     "column_order": 1
                 },
                 {
                     "data_path": "action_result.parameter.parameter_to_search",
                     "data_type": "string",
-                    "column_name": "parameter_to_search",
+                    "column_name": "Parameter_to_search",
                     "column_order": 0
                 },
                 {
@@ -704,37 +702,37 @@
                 {
                     "data_path": "action_result.status",
                     "data_type": "string",
-                    "column_name": "status",
+                    "column_name": "Status",
                     "column_order": 1
                 },
                 {
                     "data_path": "action_result.parameter.query",
                     "data_type": "string",
-                    "column_name": "query",
+                    "column_name": "Query",
                     "column_order": 0
                 },
                 {
                     "data_path": "action_result.data.*.attributes",
                     "data_type": "object",
-                    "column_name": "attributes",
+                    "column_name": "Attributes",
                     "column_order": 5
                 },
                 {
                     "data_path": "action_result.data.*.errors",
                     "data_type": "array",
-                    "column_name": "errors",
+                    "column_name": "Errors",
                     "column_order": 4
                 },
                 {
                     "data_path": "action_result.data.*.filters",
                     "data_type": "array",
-                    "column_name": "filters",
+                    "column_name": "Filters",
                     "column_order": 3
                 },
                 {
                     "data_path": "action_result.data.*.string",
                     "data_type": "string",
-                    "column_name": "query string",
+                    "column_name": "Query string",
                     "column_order": 2
                 },
                 {
@@ -771,7 +769,7 @@
                 {
                     "data_path": "action_result.status",
                     "data_type": "string",
-                    "column_name": "status",
+                    "column_name": "Status",
                     "column_order": 0
                 },
                 {
@@ -814,19 +812,19 @@
                 {
                     "data_path": "action_result.status",
                     "data_type": "string",
-                    "column_name": "status",
+                    "column_name": "Status",
                     "column_order": 0
                 },
                 {
                     "data_path": "action_result.data.*.protocol_desc",
                     "data_type": "string",
-                    "column_name": "description",
+                    "column_name": "Description",
                     "column_order": 2
                 },
                 {
                     "data_path": "action_result.data.*.protocol_name",
                     "data_type": "string",
-                    "column_name": "name",
+                    "column_name": "Name",
                     "column_order": 1
                 },
                 {
@@ -875,37 +873,37 @@
                 {
                     "data_path": "action_result.status",
                     "data_type": "string",
-                    "column_name": "status",
+                    "column_name": "Status",
                     "column_order": 2
                 },
                 {
                     "data_path": "action_result.parameter.force",
                     "data_type": "boolean",
-                    "column_name": "force",
+                    "column_name": "Force",
                     "column_order": 1
                 },
                 {
                     "data_path": "action_result.parameter.ip_list",
                     "data_type": "string",
-                    "column_name": "ip_list",
+                    "column_name": "IP List",
                     "column_order": 0
                 },
                 {
                     "data_path": "action_result.data.*.count",
                     "data_type": "string",
-                    "column_name": "ip count",
+                    "column_name": "IP Count",
                     "column_order": 4
                 },
                 {
                     "data_path": "action_result.data.*.credits_left",
                     "data_type": "string",
-                    "column_name": "credits left",
+                    "column_name": "Credits Left",
                     "column_order": 5
                 },
                 {
                     "data_path": "action_result.data.*.id",
                     "data_type": "string",
-                    "column_name": "scan id",
+                    "column_name": "Scan ID",
                     "column_order": 3
                 },
                 {
@@ -954,19 +952,19 @@
                 {
                     "data_path": "action_result.status",
                     "data_type": "string",
-                    "column_name": "status",
+                    "column_name": "Status",
                     "column_order": 2
                 },
                 {
                     "data_path": "action_result.parameter.force",
                     "data_type": "boolean",
-                    "column_name": "force",
+                    "column_name": "Force",
                     "column_order": 1
                 },
                 {
                     "data_path": "action_result.parameter.ip_with_services",
                     "data_type": "string",
-                    "column_name": "ip_with_services",
+                    "column_name": "IP_with_services",
                     "column_order": 0
                 },
                 {
@@ -1020,25 +1018,25 @@
                 {
                     "data_path": "action_result.status",
                     "data_type": "string",
-                    "column_name": "status",
+                    "column_name": "Status",
                     "column_order": 2
                 },
                 {
                     "data_path": "action_result.parameter.port",
                     "data_type": "string",
-                    "column_name": "port",
+                    "column_name": "Port",
                     "column_order": 0
                 },
                 {
                     "data_path": "action_result.parameter.protocol",
                     "data_type": "string",
-                    "column_name": "protocol",
+                    "column_name": "Protocol",
                     "column_order": 1
                 },
                 {
                     "data_path": "action_result.data.*.id",
                     "data_type": "string",
-                    "column_name": "scan id",
+                    "column_name": "Scan ID",
                     "column_order": 3
                 },
                 {
@@ -1081,19 +1079,19 @@
                 {
                     "data_path": "action_result.status",
                     "data_type": "string",
-                    "column_name": "status",
+                    "column_name": "Status",
                     "column_order": 1
                 },
                 {
                     "data_path": "action_result.parameter.page_number",
                     "data_type": "string",
-                    "column_name": "page_number",
+                    "column_name": "Page_number",
                     "column_order": 0
                 },
                 {
                     "data_path": "action_result.data.*.matches.*.created",
                     "data_type": "string",
-                    "column_name": "created date",
+                    "column_name": "Created Date",
                     "example_values": [
                         "2023-05-02T02:44:00.714000"
                     ],
@@ -1102,7 +1100,7 @@
                 {
                     "data_path": "action_result.data.*.matches.*.credits_left",
                     "data_type": "numeric",
-                    "column_name": "credits left",
+                    "column_name": "Credits Left",
                     "column_order": 5
                 },
                 {
@@ -1114,13 +1112,13 @@
                 {
                     "data_path": "action_result.data.*.matches.*.size",
                     "data_type": "numeric",
-                    "column_name": "size",
+                    "column_name": "Size",
                     "column_order": 7
                 },
                 {
                     "data_path": "action_result.data.*.matches.*.status",
                     "data_type": "string",
-                    "column_name": "scan status",
+                    "column_name": "Scan Status",
                     "example_values": [
                         "DONE",
                         "QUEUE"
@@ -1130,7 +1128,7 @@
                 {
                     "data_path": "action_result.data.*.matches.*.status_check",
                     "data_type": "string",
-                    "column_name": "status check date",
+                    "column_name": "Status Check Date",
                     "example_values": [
                         "2023-05-02T02:44:00.714000"
                     ],
@@ -1177,13 +1175,13 @@
                 {
                     "data_path": "action_result.status",
                     "data_type": "string",
-                    "column_name": "status",
+                    "column_name": "Status",
                     "column_order": 1
                 },
                 {
                     "data_path": "action_result.parameter.id",
                     "data_type": "string",
-                    "column_name": "id",
+                    "column_name": "ID",
                     "column_order": 0
                 },
                 {
@@ -1195,7 +1193,7 @@
                 {
                     "data_path": "action_result.data.*.created",
                     "data_type": "string",
-                    "column_name": "created date",
+                    "column_name": "Created Date",
                     "example_values": [
                         "2023-05-02T02:44:00.714000"
                     ],
@@ -1204,7 +1202,7 @@
                 {
                     "data_path": "action_result.data.*.status",
                     "data_type": "string",
-                    "column_name": "status",
+                    "column_name": "Status",
                     "column_order": 2
                 },
                 {

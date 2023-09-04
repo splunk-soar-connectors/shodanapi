@@ -159,7 +159,7 @@ class ShodanConnector(BaseConnector):
             )
 
         # Create a URL to connect to
-        url = self._base_url + endpoint
+        url = f'{self._base_url}{endpoint}'
 
         if (not kwargs['params']):
             kwargs['params'] = {}
