@@ -1229,7 +1229,7 @@
             "versions": "EQ(*)"
         }
     ],
-    "pip3_dependencies": {
+    "pip_dependencies": {
         "wheel": [
             {
                 "module": "XlsxWriter",
