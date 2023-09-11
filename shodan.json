@@ -1233,7 +1233,7 @@
         "wheel": [
             {
                 "module": "XlsxWriter",
-                "input_file": "wheels/py3/XlsxWriter-3.1.2-py3-none-any.whl"
+                "input_file": "wheels/py3/XlsxWriter-3.1.3-py3-none-any.whl"
             },
             {
                 "module": "click",
@@ -1269,7 +1269,7 @@
         "wheel": [
             {
                 "module": "XlsxWriter",
-                "input_file": "wheels/py3/XlsxWriter-3.1.2-py3-none-any.whl"
+                "input_file": "wheels/py3/XlsxWriter-3.1.3-py3-none-any.whl"
             },
             {
                 "module": "click",
