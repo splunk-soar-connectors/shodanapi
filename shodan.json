@@ -16,7 +16,7 @@
         }
     ],
     "license": "Copyright (c) 2023 Splunk Inc.",
-    "app_version": "1.0.0",
+    "app_version": "1.0.1",
     "utctime_updated": "2023-05-02T09:35:19.351926Z",
     "package_name": "phantom_shodan",
     "main_module": "shodan_connector.py",
