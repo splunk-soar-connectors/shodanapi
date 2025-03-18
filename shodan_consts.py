@@ -14,5 +14,5 @@
 # and limitations under the License.
 
 SHODAN_BASE_URL = "https://api.shodan.io"
-SHODAN_API_KEY = "api_key" # pragma: allowlist secret
+SHODAN_API_KEY = "api_key"  # pragma: allowlist secret
 SHODAN_DEFAULT_TIMEOUT = "30"
