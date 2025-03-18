@@ -1,6 +1,6 @@
 # File: shodan_connector.py
 #
-# Copyright (c) 2023 Splunk Inc.
+# Copyright (c) 2023-2025 Splunk Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -21,11 +21,13 @@ import sys
 
 # Phantom App imports
 import phantom.app as phantom
+
 # Usage of the consts file is recommended
 import requests
 from bs4 import BeautifulSoup
 from phantom.action_result import ActionResult
 from phantom.base_connector import BaseConnector
+
 # External dependencies
 from shodan import APIError, Shodan
 
@@ -33,17 +35,14 @@ from shodan_consts import *
 
 
 class RetVal(tuple):
-
     def __new__(cls, val1, val2=None):
         return tuple.__new__(RetVal, (val1, val2))
 
 
 class ShodanConnector(BaseConnector):
-
     def __init__(self):
-
         # Call the BaseConnectors init first
-        super(ShodanConnector, self).__init__()
+        super().__init__()
 
         self._state = None
 
@@ -60,8 +59,9 @@ class ShodanConnector(BaseConnector):
             return RetVal(phantom.APP_SUCCESS, {})
 
         return RetVal(
-            action_result.set_status(phantom.APP_ERROR, "Empty response and no information in the header, "
-                                                        "Status code: {}".format(response.status_code)), None)
+            action_result.set_status(phantom.APP_ERROR, f"Empty response and no information in the header, Status code: {response.status_code}"),
+            None,
+        )
 
     def _process_html_response(self, response, action_result):
         # A html response, treat it like an error
@@ -73,16 +73,15 @@ class ShodanConnector(BaseConnector):
             for element in soup(["script", "style", "footer", "nav"]):
                 element.extract()
             error_text = soup.text
-            split_lines = error_text.split('\n')
+            split_lines = error_text.split("\n")
             split_lines = [x.strip() for x in split_lines if x.strip()]
-            error_text = '\n'.join(split_lines)
+            error_text = "\n".join(split_lines)
         except:
             error_text = "Cannot parse error details"
 
-        message = "Status Code: {0}. Data from server:\n{1}\n".format(
-            status_code, error_text)
+        message = f"Status Code: {status_code}. Data from server:\n{error_text}\n"
 
-        message = message.replace('{', '{{').replace('}', '}}')
+        message = message.replace("{", "{{").replace("}", "}}")
         return RetVal(action_result.set_status(phantom.APP_ERROR, message), None)
 
     def _process_json_response(self, r, action_result):
@@ -90,43 +89,35 @@ class ShodanConnector(BaseConnector):
         try:
             resp_json = r.json()
         except Exception as e:
-            return RetVal(
-                action_result.set_status(
-                    phantom.APP_ERROR, "Unable to parse JSON response. Error: {0}".format(
-                        str(e))
-                ), None
-            )
+            return RetVal(action_result.set_status(phantom.APP_ERROR, f"Unable to parse JSON response. Error: {e!s}"), None)
 
         # Please specify the status codes here
         if 200 <= r.status_code < 399:
             return RetVal(phantom.APP_SUCCESS, resp_json)
 
         # You should process the error returned in the json
-        message = "Error from server. Status Code: {0} Data from server: {1}".format(
-            r.status_code,
-            r.text.replace('{', '{{').replace('}', '}}')
-        )
+        message = "Error from server. Status Code: {} Data from server: {}".format(r.status_code, r.text.replace("{", "{{").replace("}", "}}"))
 
         return RetVal(action_result.set_status(phantom.APP_ERROR, message), None)
 
     def _process_response(self, r, action_result):
         # store the r_text in debug data, it will get dumped in the logs if the action fails
-        if hasattr(action_result, 'add_debug_data'):
-            action_result.add_debug_data({'r_status_code': r.status_code})
-            action_result.add_debug_data({'r_text': r.text})
-            action_result.add_debug_data({'r_headers': r.headers})
+        if hasattr(action_result, "add_debug_data"):
+            action_result.add_debug_data({"r_status_code": r.status_code})
+            action_result.add_debug_data({"r_text": r.text})
+            action_result.add_debug_data({"r_headers": r.headers})
 
         # Process each 'Content-Type' of response separately
 
         # Process a json response
-        if 'json' in r.headers.get('Content-Type', ''):
+        if "json" in r.headers.get("Content-Type", ""):
             return self._process_json_response(r, action_result)
 
         # Process an HTML response, Do this no matter what the api talks.
         # There is a high chance of a PROXY in between phantom and the rest of
         # world, in case of errors, PROXY's return HTML, this function parses
         # the error and adds it to the action_result.
-        if 'html' in r.headers.get('Content-Type', ''):
+        if "html" in r.headers.get("Content-Type", ""):
             return self._process_html_response(r, action_result)
 
         # it's not content-type that is to be parsed, handle an empty response
@@ -134,9 +125,8 @@ class ShodanConnector(BaseConnector):
             return self._process_empty_response(r, action_result)
 
         # everything else is actually an error at this point
-        message = "Can't process response from server. Status Code: {0} Data from server: {1}".format(
-            r.status_code,
-            r.text.replace('{', '{{').replace('}', '}}')
+        message = "Can't process response from server. Status Code: {} Data from server: {}".format(
+            r.status_code, r.text.replace("{", "{{").replace("}", "}}")
         )
 
         return RetVal(action_result.set_status(phantom.APP_ERROR, message), None)
@@ -151,33 +141,24 @@ class ShodanConnector(BaseConnector):
         try:
             request_func = getattr(requests, method)
         except AttributeError:
-            return RetVal(
-                action_result.set_status(
-                    phantom.APP_ERROR, "Invalid method: {0}".format(method)),
-                resp_json
-            )
+            return RetVal(action_result.set_status(phantom.APP_ERROR, f"Invalid method: {method}"), resp_json)
 
         # Create a URL to connect to
-        url = f'{self._base_url}{endpoint}'
+        url = f"{self._base_url}{endpoint}"
 
-        if (not kwargs['params']):
-            kwargs['params'] = {}
-        kwargs['params']['key'] = self._api_key
+        if not kwargs["params"]:
+            kwargs["params"] = {}
+        kwargs["params"]["key"] = self._api_key
 
         try:
             r = request_func(
                 url,
                 # auth=(username, password),  # basic authentication
-                verify=config.get('verify_server_cert', False),
-                **kwargs
+                verify=config.get("verify_server_cert", False),
+                **kwargs,
             )
         except Exception as e:
-            return RetVal(
-                action_result.set_status(
-                    phantom.APP_ERROR, "Error Connecting to server. Details: {0}".format(
-                        str(e))
-                ), resp_json
-            )
+            return RetVal(action_result.set_status(phantom.APP_ERROR, f"Error Connecting to server. Details: {e!s}"), resp_json)
 
         return self._process_response(r, action_result)
 
@@ -185,37 +166,31 @@ class ShodanConnector(BaseConnector):
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(dict(param)))
 
-        self.save_progress("Connecting to endpoint {0}".format(
-            self._base_url + "/api-info"))
+        self.save_progress("Connecting to endpoint {}".format(self._base_url + "/api-info"))
 
-        ret_val, response = self._make_rest_call(
-            '/api-info', action_result, params=None, headers=None
-        )
+        ret_val, response = self._make_rest_call("/api-info", action_result, params=None, headers=None)
 
         if phantom.is_fail(ret_val):
             self.save_progress("Test Connectivity Failed.")
             return action_result.get_status()
 
         # Return success and display Shodan plan details
-        self.save_progress("Plan - {0}".format(response['plan']))
-        self.save_progress("Scan Credits - {0}".format(response['scan_credits']))
-        self.save_progress("Query Credits - {0}".format(response['query_credits']))
+        self.save_progress("Plan - {}".format(response["plan"]))
+        self.save_progress("Scan Credits - {}".format(response["scan_credits"]))
+        self.save_progress("Query Credits - {}".format(response["query_credits"]))
         self.save_progress("Test Connectivity Passed")
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_search_ip(self, param):
-        self.save_progress("In action handler for: {0}".format(
-            self.get_action_identifier()))
+        self.save_progress(f"In action handler for: {self.get_action_identifier()}")
 
         action_result = self.add_action_result(ActionResult(dict(param)))
         url_param = {}
-        ip = param['ip']
+        ip = param["ip"]
 
-        url_param['history'] = param.get('history', False)
-        url_param['minify'] = param.get('minify', False)
-        ret_val, response = self._make_rest_call(
-            '/shodan/host/{0}'.format(ip), action_result, params=url_param, headers=None
-        )
+        url_param["history"] = param.get("history", False)
+        url_param["minify"] = param.get("minify", False)
+        ret_val, response = self._make_rest_call(f"/shodan/host/{ip}", action_result, params=url_param, headers=None)
 
         if phantom.is_fail(ret_val):
             self.save_progress("Some error occurred")
@@ -226,73 +201,64 @@ class ShodanConnector(BaseConnector):
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_host_count(self, param):
-        self.save_progress("In action handler for: {0}".format(
-            self.get_action_identifier()))
+        self.save_progress(f"In action handler for: {self.get_action_identifier()}")
         action_result = self.add_action_result(ActionResult(dict(param)))
         url_param = {}
-        url_param['query'] = param['query']
-        url_param['facets'] = param.get('facets', '')
+        url_param["query"] = param["query"]
+        url_param["facets"] = param.get("facets", "")
 
-        ret_val, response = self._make_rest_call(
-            '/shodan/host/count', action_result, params=url_param, headers=None
-        )
+        ret_val, response = self._make_rest_call("/shodan/host/count", action_result, params=url_param, headers=None)
 
         if phantom.is_fail(ret_val):
             self.save_progress("Some error occurred")
             action_result.set_status(phantom.APP_ERROR)
 
-        if url_param['facets']:
-            for key, value in response['facets'].items():
+        if url_param["facets"]:
+            for key, value in response["facets"].items():
                 temp_data = {}
-                temp_data['facet'] = key
+                temp_data["facet"] = key
                 for each in value:
-                    temp_data['facet_value'] = each['value']
-                    temp_data['facet_count'] = each['count']
+                    temp_data["facet_value"] = each["value"]
+                    temp_data["facet_count"] = each["count"]
                     action_result.add_data(copy.deepcopy(temp_data))
 
         summary = action_result.update_summary({})
-        summary['total'] = response['total']
-        msg = "Total host count {0}".format(response['total'])
+        summary["total"] = response["total"]
+        msg = "Total host count {}".format(response["total"])
         return action_result.set_status(phantom.APP_SUCCESS, msg)
 
     def _handle_search_shodan(self, param):
-        self.save_progress("In action handler for: {0}".format(
-            self.get_action_identifier()))
+        self.save_progress(f"In action handler for: {self.get_action_identifier()}")
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(dict(param)))
 
         url_param = {}
-        url_param['query'] = param['query']
-        url_param['facets'] = param.get('facets', '')
-        url_param['page'] = param.get('page', 1)
-        url_param['minify'] = param.get('minify', True)
+        url_param["query"] = param["query"]
+        url_param["facets"] = param.get("facets", "")
+        url_param["page"] = param.get("page", 1)
+        url_param["minify"] = param.get("minify", True)
 
         # make rest call
-        ret_val, response = self._make_rest_call(
-            '/shodan/host/search', action_result, params=url_param, headers=None
-        )
+        ret_val, response = self._make_rest_call("/shodan/host/search", action_result, params=url_param, headers=None)
 
         if phantom.is_fail(ret_val):
             self.save_progress("Some error occurred")
             action_result.set_status(phantom.APP_ERROR)
 
-        for each in response['matches']:
+        for each in response["matches"]:
             action_result.add_data(each)
 
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_search_parameter(self, param):
-        self.save_progress("In action handler for: {0}".format(
-            self.get_action_identifier()))
+        self.save_progress(f"In action handler for: {self.get_action_identifier()}")
 
         action_result = self.add_action_result(ActionResult(dict(param)))
 
-        parameter_to_search = param['parameter_to_search']
+        parameter_to_search = param["parameter_to_search"]
 
-        ret_val, response = self._make_rest_call(
-            '/shodan/host/search/{0}'.format(parameter_to_search), action_result, params=None, headers=None
-        )
+        ret_val, response = self._make_rest_call(f"/shodan/host/search/{parameter_to_search}", action_result, params=None, headers=None)
 
         if phantom.is_fail(ret_val):
             self.save_progress("Some error occurred")
@@ -300,20 +266,16 @@ class ShodanConnector(BaseConnector):
 
         action_result.add_data(response)
 
-        msg = "Total {0} received: {1}".format(
-            parameter_to_search, len(response))
+        msg = f"Total {parameter_to_search} received: {len(response)}"
         return action_result.set_status(phantom.APP_SUCCESS, msg)
 
     def _handle_search_token(self, param):
-        self.save_progress("In action handler for: {0}".format(
-            self.get_action_identifier()))
+        self.save_progress(f"In action handler for: {self.get_action_identifier()}")
         action_result = self.add_action_result(ActionResult(dict(param)))
 
         url_param = {}
-        url_param['query'] = param['query']
-        ret_val, response = self._make_rest_call(
-            '/shodan/host/search/tokens', action_result, params=url_param, headers=None
-        )
+        url_param["query"] = param["query"]
+        ret_val, response = self._make_rest_call("/shodan/host/search/tokens", action_result, params=url_param, headers=None)
 
         if phantom.is_fail(ret_val):
             self.save_progress("Some error occurred")
@@ -324,13 +286,10 @@ class ShodanConnector(BaseConnector):
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_scan_ports(self, param):
-        self.save_progress("In action handler for: {0}".format(
-            self.get_action_identifier()))
+        self.save_progress(f"In action handler for: {self.get_action_identifier()}")
         action_result = self.add_action_result(ActionResult(dict(param)))
 
-        ret_val, response = self._make_rest_call(
-            '/shodan/ports', action_result, params=None, headers=None
-        )
+        ret_val, response = self._make_rest_call("/shodan/ports", action_result, params=None, headers=None)
 
         if phantom.is_fail(ret_val):
             self.save_progress("Some error occurred")
@@ -339,20 +298,17 @@ class ShodanConnector(BaseConnector):
         action_result.add_data(response)
 
         summary = action_result.update_summary({})
-        summary['total'] = len(response)
-        msg = "Total ports received: {0}".format(len(response))
+        summary["total"] = len(response)
+        msg = f"Total ports received: {len(response)}"
 
         return action_result.set_status(phantom.APP_SUCCESS, msg)
 
     def _handle_scan_protocols(self, param):
-        self.save_progress("In action handler for: {0}".format(
-            self.get_action_identifier()))
+        self.save_progress(f"In action handler for: {self.get_action_identifier()}")
         action_result = self.add_action_result(ActionResult(dict(param)))
 
         # make rest call
-        ret_val, response = self._make_rest_call(
-            '/shodan/protocols', action_result, params=None, headers=None
-        )
+        ret_val, response = self._make_rest_call("/shodan/protocols", action_result, params=None, headers=None)
 
         if phantom.is_fail(ret_val):
             self.save_progress("Some error occurred")
@@ -360,13 +316,13 @@ class ShodanConnector(BaseConnector):
 
         for key, value in response.items():
             temp_protocol = {}
-            temp_protocol['protocol_name'] = key
-            temp_protocol['protocol_desc'] = value
+            temp_protocol["protocol_name"] = key
+            temp_protocol["protocol_desc"] = value
             action_result.add_data(temp_protocol)
 
         summary = action_result.update_summary({})
-        summary['total'] = len(response)
-        msg = "Total protocols received: {0}".format(len(response))
+        summary["total"] = len(response)
+        msg = f"Total protocols received: {len(response)}"
 
         return action_result.set_status(phantom.APP_SUCCESS, msg)
 
@@ -375,20 +331,18 @@ class ShodanConnector(BaseConnector):
             ip = ipaddress.ip_network(ip, False)
             return True
         except ValueError:
-            self.save_progress(
-                "Warning: IP {0} is not a valid IP. Ignoring!".format(ip))
+            self.save_progress(f"Warning: IP {ip} is not a valid IP. Ignoring!")
         return False
 
     def process_ip_service_str(self, ip_services):
-        ip_services = ((ip_services.replace(" ", '')).replace(
-            "\"", '')).replace("'", '')
+        ip_services = ((ip_services.replace(" ", "")).replace('"', "")).replace("'", "")
 
         def str_to_list(input_string):
             services_list = []
-            pattern = r'\[\d+,[a-zA-Z0-9\-\s]+\]'
+            pattern = r"\[\d+,[a-zA-Z0-9\-\s]+\]"
             result = re.findall(pattern, input_string)
             for each in result:
-                lst = each.strip('[]').split(',')
+                lst = each.strip("[]").split(",")
                 lst = [int(lst[0]), lst[1].strip()]
                 services_list.append(lst)
             return services_list
@@ -403,22 +357,20 @@ class ShodanConnector(BaseConnector):
         return result
 
     def _handle_ip_only_scan(self, param):
-        self.save_progress("In action handler for: {0}".format(
-            self.get_action_identifier()))
+        self.save_progress(f"In action handler for: {self.get_action_identifier()}")
         action_result = self.add_action_result(ActionResult(dict(param)))
-        ip_list = param['ip_list'].split(',')
-        force_scan = param.get('force', False)
+        ip_list = param["ip_list"].split(",")
+        force_scan = param.get("force", False)
 
         ip_list = [x for x in ip_list if self.is_valid_ip(x)]
 
         if not ip_list:
-            msg = 'No valid IP addresses found!'
+            msg = "No valid IP addresses found!"
             return action_result.set_status(phantom.APP_ERROR, msg)
 
         try:
             response = self._api.scan(ips=ip_list, force=force_scan)
-            self.save_progress(
-                "Submitted shodan scan with ips:{0}".format(",".join(ip_list)))
+            self.save_progress("Submitted shodan scan with ips:{}".format(",".join(ip_list)))
             ret_val, response = RetVal(phantom.APP_SUCCESS, response)
         except APIError as e:
             return action_result.set_status(phantom.APP_ERROR, str(e))
@@ -428,15 +380,14 @@ class ShodanConnector(BaseConnector):
             action_result.set_status(phantom.APP_ERROR)
 
         action_result.add_data(response)
-        msg = "Scan submitted successfully with id {0}".format(response['id'])
+        msg = "Scan submitted successfully with id {}".format(response["id"])
         return action_result.set_status(phantom.APP_SUCCESS, msg)
 
     def _handle_scan_ip_with_services(self, param):
-        self.save_progress("In action handler for: {0}".format(
-            self.get_action_identifier()))
+        self.save_progress(f"In action handler for: {self.get_action_identifier()}")
         action_result = self.add_action_result(ActionResult(dict(param)))
-        ip_with_services = param['ip_with_services']
-        force_scan = param.get('force', False)
+        ip_with_services = param["ip_with_services"]
+        force_scan = param.get("force", False)
         ips = self.process_ip_service_str(ip_with_services)
         # check if the ips object has valid ip addresses.
         for each in list(ips.keys()):
@@ -444,17 +395,15 @@ class ShodanConnector(BaseConnector):
                 del ips[each]
 
         if not ips:
-            msg = 'No valid IP addresses found!'
+            msg = "No valid IP addresses found!"
             return action_result.set_status(phantom.APP_ERROR, msg)
 
         try:
             response = self._api.scan(ips=ips, force=force_scan)
-            self.save_progress(
-                "Submitted shodan scan with ips:{0}".format(json.dumps(ips)))
+            self.save_progress(f"Submitted shodan scan with ips:{json.dumps(ips)}")
             ret_val, response = RetVal(phantom.APP_SUCCESS, response)
         except APIError as e:
-            self.save_progress(
-                "Error: Error while submitting Shodan Scan {0}".format(str(e)))
+            self.save_progress(f"Error: Error while submitting Shodan Scan {e!s}")
             return action_result.set_status(phantom.APP_ERROR, str(e))
 
         if phantom.is_fail(ret_val):
@@ -462,26 +411,24 @@ class ShodanConnector(BaseConnector):
             action_result.set_status(phantom.APP_ERROR)
 
         action_result.add_data(response)
-        msg = "Scan submitted successfully with id {0}".format(response['id'])
+        msg = "Scan submitted successfully with id {}".format(response["id"])
         return action_result.set_status(phantom.APP_SUCCESS, msg)
 
     def _handle_scan_internet(self, param):
-        self.save_progress("In action handler for: {0}".format(
-            self.get_action_identifier()))
+        self.save_progress(f"In action handler for: {self.get_action_identifier()}")
         action_result = self.add_action_result(ActionResult(dict(param)))
-        port = param['port']
-        protocol = param['protocol']
+        port = param["port"]
+        protocol = param["protocol"]
 
         try:
             port = int(port.strip())
             response = self._api.scan_internet(port=port, protocol=protocol)
             ret_val, response = RetVal(phantom.APP_SUCCESS, response)
         except APIError as e:
-            self.save_progress(
-                "Error: Error while submitting Shodan Scan {0}".format(str(e)))
+            self.save_progress(f"Error: Error while submitting Shodan Scan {e!s}")
             return action_result.set_status(phantom.APP_ERROR, str(e))
         except ValueError:
-            error_msg = "Error: Invalid port number : {0}".format(port)
+            error_msg = f"Error: Invalid port number : {port}"
             self.save_progress(error_msg)
             return action_result.set_status(phantom.APP_ERROR, error_msg)
 
@@ -490,25 +437,23 @@ class ShodanConnector(BaseConnector):
             action_result.set_status(phantom.APP_ERROR)
 
         action_result.add_data(response)
-        msg = "Scan submitted successfully with id {0}".format(response['id'])
+        msg = "Scan submitted successfully with id {}".format(response["id"])
         return action_result.set_status(phantom.APP_SUCCESS, msg)
 
     def _handle_scan_status_bulk(self, param):
-        self.save_progress("In action handler for: {0}".format(
-            self.get_action_identifier()))
+        self.save_progress(f"In action handler for: {self.get_action_identifier()}")
         action_result = self.add_action_result(ActionResult(dict(param)))
-        page_number = param.get('page_number', 1)
+        page_number = param.get("page_number", 1)
 
         try:
             page_number = int(page_number)
             response = self._api.scans(page=page_number)
             ret_val, response = RetVal(phantom.APP_SUCCESS, response)
         except APIError as e:
-            self.save_progress(
-                "Error: Error while getting Scan Status {0}".format(str(e)))
+            self.save_progress(f"Error: Error while getting Scan Status {e!s}")
             return action_result.set_status(phantom.APP_ERROR, str(e))
         except ValueError:
-            error_msg = "Error: Invalid page number : {0}".format(page_number)
+            error_msg = f"Error: Invalid page number : {page_number}"
             self.save_progress(error_msg)
             return action_result.set_status(phantom.APP_ERROR, error_msg)
 
@@ -518,31 +463,27 @@ class ShodanConnector(BaseConnector):
 
         action_result.add_data(response)
         summary = action_result.update_summary({})
-        summary['total'] = response['total']
-        msg = "Fetched {0} statuses on page number {1}".format(
-            len(response['matches']), page_number)
+        summary["total"] = response["total"]
+        msg = "Fetched {} statuses on page number {}".format(len(response["matches"]), page_number)
         return action_result.set_status(phantom.APP_SUCCESS, msg)
 
     def _handle_shodan_scan_individual(self, param):
-        self.save_progress("In action handler for: {0}".format(
-            self.get_action_identifier()))
+        self.save_progress(f"In action handler for: {self.get_action_identifier()}")
         action_result = self.add_action_result(ActionResult(dict(param)))
-        id = param['id']
+        id = param["id"]
 
         try:
             response = self._api.scan_status(scan_id=id)
             ret_val, response = RetVal(phantom.APP_SUCCESS, response)
         except APIError as e:
-            self.save_progress(
-                "Error: Error while getting Scan Status {0}".format(str(e)))
+            self.save_progress(f"Error: Error while getting Scan Status {e!s}")
             return action_result.set_status(phantom.APP_ERROR, str(e))
 
         if phantom.is_fail(ret_val):
             action_result.set_status(phantom.APP_ERROR)
 
         action_result.add_data(response)
-        msg = "Fetched status for scan {0}. Scan status: {1}".format(
-            id, response['status'])
+        msg = "Fetched status for scan {}. Scan status: {}".format(id, response["status"])
 
         return action_result.set_status(phantom.APP_SUCCESS, msg)
 
@@ -554,43 +495,43 @@ class ShodanConnector(BaseConnector):
 
         self.debug_print("action_id", self.get_action_identifier())
 
-        if action_id == 'search_ip':
+        if action_id == "search_ip":
             ret_val = self._handle_search_ip(param)
 
-        if action_id == 'host_count':
+        if action_id == "host_count":
             ret_val = self._handle_host_count(param)
 
-        if action_id == 'search_shodan':
+        if action_id == "search_shodan":
             ret_val = self._handle_search_shodan(param)
 
-        if action_id == 'search_parameter':
+        if action_id == "search_parameter":
             ret_val = self._handle_search_parameter(param)
 
-        if action_id == 'search_token':
+        if action_id == "search_token":
             ret_val = self._handle_search_token(param)
 
-        if action_id == 'scan_ports':
+        if action_id == "scan_ports":
             ret_val = self._handle_scan_ports(param)
 
-        if action_id == 'scan_protocols':
+        if action_id == "scan_protocols":
             ret_val = self._handle_scan_protocols(param)
 
-        if action_id == 'ip_only_scan':
+        if action_id == "ip_only_scan":
             ret_val = self._handle_ip_only_scan(param)
 
-        if action_id == 'scan_ip_with_services':
+        if action_id == "scan_ip_with_services":
             ret_val = self._handle_scan_ip_with_services(param)
 
-        if action_id == 'scan_internet':
+        if action_id == "scan_internet":
             ret_val = self._handle_scan_internet(param)
 
-        if action_id == 'scan_status_bulk':
+        if action_id == "scan_status_bulk":
             ret_val = self._handle_scan_status_bulk(param)
 
-        if action_id == 'shodan_scan_individual':
+        if action_id == "shodan_scan_individual":
             ret_val = self._handle_shodan_scan_individual(param)
 
-        if action_id == 'test_connectivity':
+        if action_id == "test_connectivity":
             ret_val = self._handle_test_connectivity(param)
 
         return ret_val
@@ -629,10 +570,10 @@ def main():
 
     argparser = argparse.ArgumentParser()
 
-    argparser.add_argument('input_test_json', help='Input Test JSON file')
-    argparser.add_argument('-u', '--username', help='username', required=False)
-    argparser.add_argument('-p', '--password', help='password', required=False)
-    argparser.add_argument('-v', '--verify', action='store_true', help='verify', required=False, default=False)
+    argparser.add_argument("input_test_json", help="Input Test JSON file")
+    argparser.add_argument("-u", "--username", help="username", required=False)
+    argparser.add_argument("-p", "--password", help="password", required=False)
+    argparser.add_argument("-v", "--verify", action="store_true", help="verify", required=False, default=False)
 
     args = argparser.parse_args()
     session_id = None
@@ -642,32 +583,31 @@ def main():
     verify = args.verify
 
     if username is not None and password is None:
-
         # User specified a username but not a password, so ask
         import getpass
+
         password = getpass.getpass("Password: ")
 
     if username and password:
         try:
-            login_url = ShodanConnector._get_phantom_base_url() + '/login'
+            login_url = ShodanConnector._get_phantom_base_url() + "/login"
 
             print("Accessing the Login page")
             r = requests.get(login_url, verify=verify, timeout=SHODAN_DEFAULT_TIMEOUT)
-            csrftoken = r.cookies['csrftoken']
+            csrftoken = r.cookies["csrftoken"]
 
             data = dict()
-            data['username'] = username
-            data['password'] = password
-            data['csrfmiddlewaretoken'] = csrftoken
+            data["username"] = username
+            data["password"] = password
+            data["csrfmiddlewaretoken"] = csrftoken
 
             headers = dict()
-            headers['Cookie'] = 'csrftoken=' + csrftoken
-            headers['Referer'] = login_url
+            headers["Cookie"] = "csrftoken=" + csrftoken
+            headers["Referer"] = login_url
 
             print("Logging into Platform to get the session id")
-            r2 = requests.post(login_url, verify=verify, timeout=SHODAN_DEFAULT_TIMEOUT,
-                               data=data, headers=headers)
-            session_id = r2.cookies['sessionid']
+            r2 = requests.post(login_url, verify=verify, timeout=SHODAN_DEFAULT_TIMEOUT, data=data, headers=headers)
+            session_id = r2.cookies["sessionid"]
         except Exception as e:
             print("Unable to get session id from the platform. Error: " + str(e))
             sys.exit(1)
@@ -681,8 +621,8 @@ def main():
         connector.print_progress_message = True
 
         if session_id is not None:
-            in_json['user_session_token'] = session_id
-            connector._set_csrf_info(csrftoken, headers['Referer'])
+            in_json["user_session_token"] = session_id
+            connector._set_csrf_info(csrftoken, headers["Referer"])
 
         ret_val = connector._handle_action(json.dumps(in_json), None)
         print(json.dumps(json.loads(ret_val), indent=4))
@@ -690,5 +630,5 @@ def main():
     sys.exit(0)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
