@@ -1233,11 +1233,11 @@
         "wheel": [
             {
                 "module": "XlsxWriter",
-                "input_file": "wheels/py3/XlsxWriter-3.1.3-py3-none-any.whl"
+                "input_file": "wheels/py3/XlsxWriter-3.2.2-py3-none-any.whl"
             },
             {
                 "module": "click",
-                "input_file": "wheels/py3/click-8.0.4-py3-none-any.whl"
+                "input_file": "wheels/py3/click-8.1.8-py3-none-any.whl"
             },
             {
                 "module": "click_plugins",
@@ -1245,23 +1245,11 @@
             },
             {
                 "module": "colorama",
-                "input_file": "wheels/shared/colorama-0.4.5-py2.py3-none-any.whl"
-            },
-            {
-                "module": "importlib_metadata",
-                "input_file": "wheels/py3/importlib_metadata-4.8.3-py3-none-any.whl"
+                "input_file": "wheels/shared/colorama-0.4.6-py2.py3-none-any.whl"
             },
             {
                 "module": "shodan",
                 "input_file": "wheels/py3/shodan-1.28.0-py3-none-any.whl"
-            },
-            {
-                "module": "typing_extensions",
-                "input_file": "wheels/py3/typing_extensions-4.1.1-py3-none-any.whl"
-            },
-            {
-                "module": "zipp",
-                "input_file": "wheels/py3/zipp-3.6.0-py3-none-any.whl"
             }
         ]
     },
