@@ -1,0 +1,55 @@
+Splunk SOAR Shodan
+Copyright (c) 2023-2025 Splunk Inc.
+
+Third Party Software Attributions:
+
+Name: certifi
+Version: 2025.1.31
+Author: Kenneth Reitz
+License: MPL-2.0
+
+Name: charset-normalizer
+Version: 3.4.1
+Author: 
+License: MIT
+
+Name: click
+Version: 8.1.8
+Author: 
+License: 
+
+Name: click-plugins
+Version: 1.1.1
+Author: Kevin Wurster, Sean Gillies
+License: New BSD
+
+Name: colorama
+Version: 0.4.6
+Author: 
+License: 
+
+Name: idna
+Version: 3.10
+Author: 
+License: 
+
+Name: requests
+Version: 2.32.3
+Author: Kenneth Reitz
+License: Apache-2.0
+
+Name: shodan
+Version: 1.28.0
+Author: John Matherly
+License: UNKNOWN
+
+Name: urllib3
+Version: 2.3.0
+Author: 
+License: 
+
+Name: XlsxWriter
+Version: 3.2.2
+Author: John McNamara
+License: BSD-2-Clause
+
