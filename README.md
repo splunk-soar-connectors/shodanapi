@@ -1,7 +1,7 @@
 # Shodan
 
 Publisher: Splunk Community \
-Connector Version: 1.0.1 \
+Connector Version: 1.0.2 \
 Product Vendor: Shodan \
 Product Name: Shodan Search Engine \
 Minimum Product Version: 6.0.2
