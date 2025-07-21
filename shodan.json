@@ -7,7 +7,7 @@
     "logo": "shodan.svg",
     "logo_dark": "shodan_dark.svg",
     "product_name": "Shodan Search Engine",
-    "python_version": "3",
+    "python_version": ["3.9", "3.13"],
     "product_version_regex": ".*",
     "publisher": "Splunk Community",
     "contributors": [
